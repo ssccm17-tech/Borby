@@ -1,1 +1,1138 @@
-Borby
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#17212b">
+<meta name="description" content="Borby — мессенджер для общения с друзьями">
+<title>Borby — мессенджер</title>
+<style>
+:root{--bg:#101922;--panel:#1d2936;--panel2:#263544;--line:#2b3a49;--text:#f4f7fb;--muted:#8998a8;--blue:#2aabee;--green:#4cc38a;--danger:#ff6b75;--panel-glass:rgba(29,41,54,.94)}
+*{box-sizing:border-box}html{background:var(--bg);color-scheme:dark}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.4 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;min-height:100vh;-webkit-tap-highlight-color:transparent}button,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:15px;background:var(--blue);color:#fff;padding:12px 15px;font-weight:650;transition:filter .15s,transform .15s}button:active{transform:scale(.985)}button:disabled{opacity:.5;cursor:not-allowed}input,textarea{width:100%;background:#17222e;border:1px solid #2a3948;border-radius:16px;padding:13px 15px;color:var(--text);outline:none;min-width:0}input:focus,textarea:focus{border-color:var(--blue)}
+.app{max-width:760px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding-bottom:96px}.top{padding:20px 18px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:76px}.brand{font-size:29px;font-weight:850;letter-spacing:-.8px}.brand span{color:var(--blue)}.sub{color:var(--muted);font-size:13px}.content{padding:5px 14px 22px;flex:1;min-width:0}.card{background:var(--panel);border:1px solid rgba(255,255,255,.018);border-radius:24px;padding:16px;margin-bottom:13px;box-shadow:0 1px 2px rgba(0,0,0,.08)}.title{font-size:21px;font-weight:760;margin:0 0 12px;letter-spacing:-.25px}.stack{display:grid;gap:10px}.row{display:flex;align-items:center;gap:12px}.row>*:last-child{min-width:0}.grow{flex:1;min-width:0}.avatar{width:50px;height:50px;flex:none;border-radius:50%;background:linear-gradient(135deg,#3390ec,#8b75e8);display:grid;place-items:center;font-size:19px;font-weight:750;color:#fff;overflow:hidden}.avatar img{width:100%;height:100%;object-fit:cover}.muted{color:var(--muted)}.small{font-size:13px}.tabs{position:fixed;bottom:max(10px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(500px,calc(100% - 28px));display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;background:rgba(30,44,59,.96);border:1px solid rgba(255,255,255,.04);border-radius:28px;padding:7px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:10;box-shadow:0 8px 30px #0002}.tab{background:transparent;color:#c0cad4;padding:8px 3px;border-radius:22px;font-size:12px;display:grid;justify-items:center;gap:3px;min-width:0}.tab b{font-size:22px;line-height:1.1}.tab.active{background:#293f55;color:#55b8f5}.hidden{display:none!important}.fieldlabel{font-size:13px;color:var(--muted);margin-bottom:-5px}.notice{border-radius:14px;padding:11px 12px;background:#1a3547;color:#a9d7ff;font-size:13px}.error{color:#ff9aa1}.success{color:#7be0ad}.item{display:flex;align-items:center;gap:12px;padding:12px 5px;border-bottom:1px solid rgba(255,255,255,.055);border-radius:14px;min-width:0}.item:last-child{border-bottom:0}.pill{font-size:12px;color:#b4c3d1;background:#2b3d4d;padding:5px 9px;border-radius:12px;white-space:nowrap}.chatwindow{display:flex;flex-direction:column;min-height:55dvh}.messages{flex:1;display:flex;flex-direction:column;gap:8px;padding:10px 2px;overflow-y:auto;max-height:52dvh;overscroll-behavior:contain}.bubble{max-width:84%;padding:10px 13px;border-radius:17px 17px 17px 5px;background:#263747;align-self:flex-start;overflow-wrap:anywhere;white-space:pre-wrap}.bubble.mine{background:#2b5278;align-self:flex-end;border-radius:17px 17px 5px 17px}.bubble .time{font-size:10px;opacity:.7;text-align:right;margin-top:4px}.sendrow{display:flex;gap:8px;align-items:flex-end;padding-top:8px}.sendrow textarea{resize:none;min-height:48px;max-height:110px}.sendrow button{height:48px;min-width:50px;padding:8px}.searchrow{display:flex;gap:8px}.searchrow input{min-width:0;border-radius:24px;background:#2a3543;border-color:transparent;padding-left:18px}.searchrow button{flex:none}.profilehero{text-align:center;padding:10px 0 18px}.profilehero .avatar{width:92px;height:92px;margin:0 auto 12px;font-size:30px}.linkbtn{background:transparent;color:#65b8ff;padding:4px}.dangerbtn{background:#4a2730;color:#ffb0b5}.ghost{background:#2b3d4d;color:#d9e7f3}.empty{text-align:center;color:var(--muted);padding:26px 8px}.footnote{font-size:12px;color:var(--muted);line-height:1.5}.verified{display:inline-flex;vertical-align:middle;align-items:center;justify-content:center;width:17px;height:17px;margin-left:4px;border-radius:50%;background:#2aabee;color:#fff;font-size:11px;font-weight:900;line-height:1;box-shadow:0 0 0 2px var(--panel)}.name-line{display:inline-flex;align-items:center;gap:1px;max-width:100%}.item{border-radius:14px}.card{box-shadow:0 1px 2px rgba(0,0,0,.08)}
+/* Telegram-inspired home stories and chat filters */
+.stories{display:flex;gap:15px;overflow-x:auto;padding:3px 1px 17px;scrollbar-width:none}.stories::-webkit-scrollbar{display:none}.story{flex:0 0 74px;width:74px;text-align:center;background:transparent;color:var(--text);padding:0;border-radius:0;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden}.story-ring{width:68px;height:68px;border-radius:50%;padding:3px;border:2px solid #42d879;display:grid;place-items:center}.story-ring .avatar{width:100%;height:100%;border:2px solid var(--bg);font-size:22px}.story-label{max-width:74px;overflow:hidden;text-overflow:ellipsis}.chat-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;background:var(--panel);padding:5px;border-radius:22px;margin:0 0 12px}.chat-filter{background:transparent;color:var(--muted);padding:10px 4px;border-radius:18px;font-size:13px;white-space:nowrap}.chat-filter.active{background:#2a4055;color:#7fc8ff}.chat-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.035);width:100%;text-align:left;background:transparent;color:inherit;border-radius:0}.chat-row:last-child{border-bottom:0}.chat-row .avatar{width:54px;height:54px}.chat-preview{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.settings-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.035)}.settings-row:last-child{border-bottom:0}.settings-icon{width:43px;height:43px;border-radius:14px;flex:none;display:grid;place-items:center;font-size:23px;background:linear-gradient(145deg,#2aabee,#1976d2)}.settings-icon.orange{background:linear-gradient(145deg,#ffb52e,#e58a16)}.settings-icon.green{background:linear-gradient(145deg,#67d85d,#25a84b)}.settings-icon.red{background:linear-gradient(145deg,#ff6477,#db3152)}.settings-icon.purple{background:linear-gradient(145deg,#d66bff,#8d50d7)}.settings-icon.cyan{background:linear-gradient(145deg,#4dd4df,#168fb7)}.profile-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:2px 0 16px}.profile-actions button{background:#293846;padding:13px 5px;border-radius:20px;font-size:12px;display:grid;gap:6px;justify-items:center}.profile-actions strong{font-size:21px}.profile-info{background:var(--panel2);border-radius:20px;padding:15px;margin-top:12px}.profile-info .info-value{font-size:16px;overflow-wrap:anywhere}.profile-info .info-label{color:var(--muted);font-size:12px;margin-top:3px;margin-bottom:12px}.profile-info .info-label:last-child{margin-bottom:0}
+.modal-backdrop{position:fixed;inset:0;background:#000a;z-index:30;display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.modal{width:min(620px,100%);max-height:88dvh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 20px 70px #0008}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.gift-chat-card{width:min(320px,100%);border-radius:24px;padding:18px 16px;text-align:center;background:linear-gradient(145deg,#49a83f,#83b83b);color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.14);overflow:hidden}.gift-chat-card .gift-chat-emoji{font-size:76px;line-height:1.2;margin:4px 0 12px}.gift-chat-card .gift-chat-title{font-size:19px;font-weight:800}.gift-chat-card .gift-chat-sub{font-size:15px;opacity:.9;margin-top:5px}.gift-chat-card .gift-chat-from{font-size:12px;opacity:.85;margin-top:12px}.gift-chat-card .gift-chat-note{margin-top:10px;padding:8px;background:#ffffff20;border-radius:12px;overflow-wrap:anywhere}.gift-chat-card .gift-chat-price{font-weight:800;margin-top:8px}.gift-chat-card .gift-chat-button{display:inline-block;margin-top:14px;padding:9px 24px;border-radius:24px;background:#388c32;font-weight:700}.bubble.gift-bubble{background:transparent!important;box-shadow:none!important;padding:0!important;max-width:340px}.bubble.gift-bubble .time{color:var(--muted);text-align:center;margin-top:5px}.golda{color:#ffd76a;font-weight:800}.gift-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.gift-card{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:12px;min-width:0}.gift-emoji{font-size:28px}.gift-card button{width:100%;margin-top:8px;padding:9px 7px}.admin-panel{border:1px solid rgba(255,190,70,.25);background:rgba(255,190,70,.055);border-radius:16px;padding:13px;margin-top:12px}.admin-panel h3{margin:0 0 10px;font-size:16px}.modal-actions{display:grid;gap:8px;margin-top:12px}
+@media(min-width:600px){.modal-backdrop{align-items:center}}
+@media(min-width:600px){.content{padding:12px 22px 24px}.top{padding:22px 24px 14px}.tabs{bottom:16px}.stories{gap:19px}.story{flex-basis:80px;width:80px}.story-ring{width:72px;height:72px}}
+@media(max-width:380px){.content{padding-left:10px;padding-right:10px}.top{padding-left:14px;padding-right:14px}.card{padding:13px;border-radius:21px}.title{font-size:20px}.avatar{width:46px;height:46px}.chat-row .avatar{width:49px;height:49px}.tabs{width:calc(100% - 18px)}.tab{font-size:11px}.tab b{font-size:20px}.profile-actions button{font-size:11px}}
+/* Borby visual refresh — Telegram-inspired styling; layout and app logic preserved. */
+:root{
+  --bg:#0e1621;
+  --panel:#17212b;
+  --panel2:#202b36;
+  --line:#293746;
+  --text:#f2f5f8;
+  --muted:#8d9aa8;
+  --blue:#3390ec;
+  --green:#4cc38a;
+  --danger:#ff6b75;
+  --panel-glass:rgba(23,33,43,.92);
+}
+html{background:var(--bg)}
+body{
+  background:radial-gradient(ellipse at 50% -15%,rgba(51,144,236,.09),transparent 48%),var(--bg);
+  color:var(--text);
+  letter-spacing:.005em;
+}
+button{
+  border-radius:13px;
+  background:var(--blue);
+  box-shadow:0 2px 8px rgba(51,144,236,.12);
+  transition:background .16s ease,box-shadow .16s ease,transform .16s ease,opacity .16s ease;
+}
+button:hover:not(:disabled){filter:brightness(1.08)}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #62b5ff;outline-offset:2px}
+input,textarea{
+  background:#0e1621;
+  border:1px solid #2a3948;
+  border-radius:13px;
+  transition:border-color .16s ease,background .16s ease,box-shadow .16s ease;
+}
+input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(51,144,236,.12)}
+.app{max-width:780px;padding-bottom:104px}
+.top{padding:20px 20px 14px;min-height:78px}
+.brand{font-size:28px;letter-spacing:-1.1px}
+.sub{font-size:13px;line-height:1.45}
+.content{padding:6px 16px 24px}
+.card{
+  background:linear-gradient(145deg,rgba(25,37,49,.98),rgba(23,33,43,.98));
+  border:1px solid rgba(150,180,210,.075);
+  border-radius:20px;
+  padding:17px;
+  margin-bottom:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.title{font-size:21px;font-weight:750;letter-spacing:-.45px}
+.avatar{background:linear-gradient(135deg,#3390ec 0%,#6b79d6 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+.tabs{
+  width:min(480px,calc(100% - 24px));
+  bottom:max(9px,env(safe-area-inset-bottom));
+  gap:3px;padding:6px;
+  background:rgba(23,33,43,.92);
+  border:1px solid rgba(160,190,220,.12);
+  border-radius:22px;
+  box-shadow:0 10px 34px rgba(0,0,0,.36);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+}
+.tab{color:#91a0af;border-radius:16px;padding:9px 3px;font-weight:550;transition:background .15s ease,color .15s ease}
+.tab b{font-size:21px}
+.tab.active{background:rgba(51,144,236,.16);color:#65b8ff}
+.ghost{background:#263544;color:#dce8f2;box-shadow:none}
+.linkbtn{color:#65b8ff;box-shadow:none}
+.dangerbtn{background:rgba(219,49,82,.16);color:#ff9ba7;box-shadow:none}
+.notice{background:rgba(51,144,236,.12);border:1px solid rgba(51,144,236,.16);color:#b8ddff;border-radius:12px}
+.pill{background:#263747;color:#b8c7d5;border-radius:9px}
+.item{padding:12px 8px;border-bottom-color:rgba(160,190,220,.075);transition:background .15s ease}
+.item:hover{background:rgba(255,255,255,.025)}
+.searchrow input{background:#202b36;border:1px solid transparent;border-radius:13px}
+.chat-filters{background:#17212b;border:1px solid rgba(150,180,210,.07);border-radius:14px;padding:4px}
+.chat-filter{border-radius:11px;padding:9px 4px}
+.chat-filter.active{background:rgba(51,144,236,.16);color:#69baff}
+.chat-row{padding:12px 8px;border-radius:13px;border-bottom-color:rgba(160,190,220,.06);transition:background .15s ease}
+.chat-row:hover{background:rgba(255,255,255,.035)}
+.chat-row .avatar{width:52px;height:52px}
+.online-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#35d878;box-shadow:0 0 0 2px var(--panel);margin-right:5px;vertical-align:middle}.offline-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#718096;margin-right:5px;vertical-align:middle}
+.bubble{background:#182533;border:1px solid rgba(170,200,230,.045);border-radius:17px 17px 17px 5px;padding:10px 13px;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.bubble.mine{background:#2b5278;border-color:rgba(140,200,255,.08);border-radius:17px 17px 5px 17px}
+.sendrow{gap:9px}
+.sendrow textarea{background:#17212b;border-radius:17px;padding:13px 15px}
+.sendrow button{border-radius:16px;box-shadow:0 3px 12px rgba(51,144,236,.2)}
+.settings-row{border-bottom-color:rgba(160,190,220,.07)}
+.profile-actions button{background:#223140;border:1px solid rgba(150,180,210,.06);box-shadow:none}
+.profile-actions button:hover{background:#2a3d50}
+.profile-info{background:#202b36;border:1px solid rgba(150,180,210,.055)}
+.story-ring{border-color:#3390ec}
+.empty{padding:30px 12px}
+@media(min-width:600px){
+  .app{padding-bottom:94px}
+  .content{padding:10px 22px 26px}
+  .top{padding:22px 26px 15px}
+  .card{padding:20px}
+  .tabs{bottom:14px}
+}
+@media(max-width:380px){
+  .content{padding-left:10px;padding-right:10px}
+  .card{padding:13px;border-radius:18px}
+  .top{padding-left:14px;padding-right:14px}
+  .tabs{width:calc(100% - 16px)}
+}
+.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
+
+
+/* Borby modern Telegram-inspired refinement */
+:root{--bg:#0e1621;--panel:#17212b;--panel2:#202b36;--line:#2a3948;--blue:#3390ec}
+.top{position:sticky;top:0;z-index:8;background:rgba(14,22,33,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(160,190,220,.055)}
+#mainView .page>.row:first-child .brand{font-size:26px}
+.chat-row{margin:2px 0;padding:12px 10px}
+.chat-row .grow{overflow:hidden}
+.settings-row{cursor:pointer;border-radius:14px;padding:12px 9px;transition:background .15s}
+.settings-row:hover,.settings-row:focus-visible{background:rgba(255,255,255,.045);outline:none}
+.story{transition:transform .15s}.story:active{transform:scale(.97)}
+#peerName,#peerAvatar{cursor:pointer}
+#peerName:hover{text-decoration:underline;text-decoration-color:#3390ec}
+.messages{scroll-behavior:auto;overflow-anchor:none}
+@media(min-width:760px){.app{max-width:820px}.chatwindow{min-height:65dvh}.messages{max-height:60dvh}}
+body.light-theme{--bg:#f1f4f8;--panel:#fff;--panel2:#f5f7fa;--line:#dce3eb;--text:#182533;--muted:#68798b;background:var(--bg);color:var(--text)}
+body.light-theme .top{background:rgba(241,244,248,.9)}body.light-theme .card,body.light-theme .modal{background:var(--panel);border-color:#e0e6ed;box-shadow:0 6px 22px rgba(30,55,80,.07)}body.light-theme input,body.light-theme textarea,body.light-theme .searchrow input{background:#f5f7fa;color:#182533;border-color:#dce3eb}body.light-theme .tabs{background:rgba(255,255,255,.94);border-color:#dce3eb}body.light-theme .tab{color:#65788b}body.light-theme .tab.active{background:#e2f0ff;color:#1674c5}body.light-theme .ghost{background:#e8eef5;color:#263a4d}body.light-theme .chat-filter.active{background:#e2f0ff;color:#1674c5}body.light-theme .chat-filters{background:#f5f7fa;border-color:#e0e6ed}body.light-theme .bubble{background:#e7edf4;color:#182533}body.light-theme .bubble.mine{background:#d4e9ff;color:#182533}body.light-theme .profile-info,body.light-theme .gift-card{background:#f5f7fa;border-color:#e0e6ed}body.light-theme .profile-actions button{background:#edf2f7;color:#263a4d}body.light-theme .story-ring .avatar{border-color:#f1f4f8}
+
+
+/* Safe mobile layout fixes */
+html,body{width:100%;max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.app{width:100%;max-width:780px;min-width:0;overflow-x:hidden}
+.content,.page,.card,.item,.row,.settings-row,.profilehero{min-width:0;max-width:100%}
+.row>*{min-width:0}
+.grow{min-width:0;overflow-wrap:anywhere}
+img,video,canvas,svg{max-width:100%}
+.title,.name-line,.info-value{overflow-wrap:anywhere}
+.item{flex-wrap:wrap}
+.item>button{max-width:100%;white-space:normal}
+.profile-actions{grid-template-columns:repeat(3,minmax(0,1fr))}
+.profile-actions button{min-width:0;padding-left:4px;padding-right:4px;overflow-wrap:anywhere}
+.chat-row{min-width:0;width:100%}
+.chat-row .grow{min-width:0;overflow:hidden}
+.chat-preview{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tabs{width:min(500px,calc(100% - 20px));max-width:calc(100vw - 20px)}
+.messages{-webkit-overflow-scrolling:touch;overscroll-behavior:contain;overflow-anchor:none}
+@media(max-width:420px){
+ .app{padding-bottom:94px}
+ .content{padding-left:10px;padding-right:10px}
+ .top{padding:14px 12px 11px;gap:8px}
+ .top button{padding:9px 11px;flex:none}
+ .card{padding:13px;border-radius:18px}
+ .chat-row{gap:9px;padding:10px 4px}
+ .chat-row .avatar{width:46px;height:46px;flex:none}
+ .settings-icon{width:39px;height:39px;flex:none}
+ .profile-actions{gap:5px}
+ .profile-actions button{font-size:11px;padding:10px 3px}
+ .tabs{bottom:max(8px,env(safe-area-inset-bottom));padding:6px}
+ .tab{font-size:11px;padding:8px 2px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Borby modern Telegram-inspired redesign */
+:root{--bg:#0e1621;--panel:#17212b;--panel2:#202d3a;--line:#2b3948;--text:#f5f8fc;--muted:#8b9bad;--blue:#3390ec;--green:#4cc38a;--danger:#ff6675;--panel-glass:rgba(23,33,43,.96)}
+body{background:radial-gradient(ellipse at 50% -15%,#1b3950 0%,#0e1621 48%);background-attachment:fixed;letter-spacing:.05px}
+.top{position:sticky;top:0;z-index:8;background:rgba(14,22,33,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(130,170,205,.10)}
+.brand{font-size:28px;letter-spacing:-1.2px}.card{background:linear-gradient(145deg,rgba(28,43,57,.98),rgba(22,33,45,.98));border:1px solid rgba(135,174,211,.10);border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.12);transition:background .2s,border-color .2s}
+button{transition:background .18s,color .18s,transform .16s,box-shadow .18s}button:active{transform:scale(.97)}button:not(.tab):not(.chat-row):not(.story):hover{box-shadow:0 4px 14px rgba(51,144,236,.16)}
+.tabs{background:rgba(23,33,43,.94);border:1px solid rgba(130,170,205,.16);box-shadow:0 12px 38px rgba(0,0,0,.38);border-radius:24px}.tab{color:#91a4b8}.tab.active{background:#243e55;color:#69bdff;box-shadow:inset 0 0 0 1px rgba(90,180,255,.10)}
+.chat-filters{background:#17212b;border:1px solid rgba(130,170,205,.10);border-radius:17px}.chat-filter.active{background:#263f55;color:#72c3ff}.chat-row{padding:13px 8px;border-radius:17px;transition:background .18s}.chat-row:hover{background:rgba(75,151,216,.08)}.chat-row .avatar{width:52px;height:52px}.avatar{background:linear-gradient(135deg,#3390ec,#7a68d8);box-shadow:0 3px 12px rgba(51,144,236,.16)}.bubble{background:#202f3e;border:1px solid rgba(255,255,255,.025);box-shadow:0 2px 5px rgba(0,0,0,.08)}.bubble.mine{background:#245783}.profile-info{background:#14202b;border:1px solid rgba(135,174,211,.10)}.profile-actions button{background:#223548;border:1px solid rgba(135,174,211,.12);border-radius:16px}.settings-row{padding:13px 8px;border-radius:16px;transition:background .18s}.settings-row:hover{background:rgba(75,151,216,.07)}input,textarea{background:#111d29;border-color:#2b3d4e;border-radius:14px}input:focus,textarea:focus{box-shadow:0 0 0 3px rgba(51,144,236,.14)}.modal{background:#17212b;border-color:#314457;border-radius:25px;animation:borbyModalIn .2s ease-out}.modal-backdrop{backdrop-filter:blur(5px)}@keyframes borbyModalIn{from{opacity:.4;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.story-ring{border-color:#3390ec}.story{transition:transform .18s}.story:active{transform:scale(.96)}
+body.light-theme{--bg:#eaf0f6;--panel:#fff;--panel2:#f3f6fa;--line:#dce4ed;--text:#172533;--muted:#718397;background:#eaf0f6;color:var(--text)}body.light-theme .top{background:rgba(234,240,246,.92);border-color:#dce4ed}body.light-theme .card{background:#fff;border-color:#dce4ed;box-shadow:0 6px 22px rgba(30,55,80,.07)}body.light-theme .tabs{background:rgba(255,255,255,.96)}body.light-theme .chat-row:hover,body.light-theme .settings-row:hover{background:#edf5fd}body.light-theme .profile-info{background:#f3f6fa}body.light-theme .bubble{background:#fff}body.light-theme .bubble.mine{background:#d7ebff}body.light-theme input,body.light-theme textarea{background:#f6f8fb;color:#172533}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+.borby-media-link{display:block;color:inherit;text-decoration:none;max-width:100%}.borby-chat-image{display:block;width:min(260px,100%);max-height:360px;object-fit:contain;border-radius:12px}.borby-chat-video{display:block;width:min(300px,100%);max-height:420px;border-radius:12px;background:#000}.borby-media-name{font-size:12px;opacity:.8;margin-top:5px;overflow-wrap:anywhere}#attachMediaBtn{min-width:46px;height:48px;padding:6px;font-size:23px;line-height:1}#mediaUploadStatus{overflow-wrap:anywhere}#borby-file-card{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(0,0,0,.12);max-width:100%}.borby-file-icon{font-size:25px;flex:none}.borby-file-info{min-width:0;overflow-wrap:anywhere}.borby-file-size{font-size:11px;opacity:.7;margin-top:3px}
+  .borby-message-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:5px;opacity:.88}
+  .borby-message-action{border:0;background:transparent;color:var(--accent,#70a7ff);font-size:11px;padding:3px 0;cursor:pointer;min-height:24px}
+  .borby-message-action.danger{color:#ff8585}
+  .borby-message-action:focus-visible{outline:2px solid currentColor;border-radius:5px}
+
+/* Borby PC support: desktop navigation rail, wider workspace and keyboard-friendly controls */
+@media (min-width: 900px) {
+  html, body { min-height: 100%; }
+  body { overflow-x: hidden; }
+  .app {
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    padding: 0;
+    overflow: visible;
+  }
+  .top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 76px;
+    padding: 14px 28px 14px 270px;
+    background: rgba(14,22,33,.94);
+    border-bottom: 1px solid rgba(130,170,205,.12);
+    z-index: 15;
+  }
+  body.light-theme .top { background: rgba(241,244,248,.96); }
+  .content {
+    width: min(1440px, calc(100% - 270px));
+    max-width: none;
+    margin: 76px 0 0 270px;
+    padding: 24px 30px 36px;
+  }
+  #mainView { width: 100%; }
+  #mainView > .page, #mainView > #conversationPage {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .tabs {
+    position: fixed;
+    left: 16px;
+    top: 92px;
+    bottom: 16px;
+    transform: none;
+    width: 224px;
+    max-width: none;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 7px;
+    padding: 12px;
+    border-radius: 20px;
+    overflow-y: auto;
+  }
+  .tab {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 13px;
+    min-height: 48px;
+    padding: 11px 15px;
+    text-align: left;
+    font-size: 14px;
+    border-radius: 13px;
+  }
+  .tab b { width: 25px; font-size: 22px; text-align: center; }
+  .tab.active { background: rgba(51,144,236,.18); }
+  .card { border-radius: 18px; }
+  #chatsPage > .row:first-child { margin-bottom: 12px; }
+  .stories { gap: 20px; }
+  .story { flex-basis: 84px; width: 84px; }
+  .story-ring { width: 76px; height: 76px; }
+  #chatList { padding: 12px 18px; }
+  .chat-row { padding: 14px 12px; }
+  .chat-row .avatar { width: 56px; height: 56px; }
+  .chatwindow { min-height: min(720px, calc(100vh - 150px)); }
+  .messages { max-height: none; min-height: 340px; flex: 1; padding: 18px 10px; }
+  .bubble { max-width: min(68%, 650px); padding: 12px 15px; }
+  .sendrow textarea { min-height: 50px; }
+  .modal-backdrop { align-items: center; }
+  .modal { width: min(680px, calc(100vw - 40px)); }
+  #authView { width: min(520px, 100%); margin: 8vh auto 0; padding: 28px; }
+  #globalStatus { max-width: 1180px; margin: 0 auto; }
+  button, .chat-row, .story, .tab { cursor: pointer; }
+}
+@media (min-width: 900px) and (max-width: 1150px) {
+  .top { padding-left: 250px; }
+  .tabs { width: 204px; }
+  .content { width: calc(100% - 240px); margin-left: 240px; padding-left: 22px; padding-right: 22px; }
+}
+@media (min-width: 900px) and (prefers-color-scheme: light) {
+  body.light-theme .tabs { border-color: #dce3eb; }
+}
+/* Keep the original compact bottom navigation on phones and small tablets. */
+
+
+/* Borby real-time audio calling */
+.call-icon-btn{width:44px;height:44px;flex:none;border-radius:50%;background:#1d9b69;color:#fff;font-size:22px;padding:0;box-shadow:0 5px 16px #159b6933}
+.call-overlay{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:18px;background:rgba(5,12,20,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.call-panel{width:min(100%,390px);padding:30px 22px 22px;text-align:center;border:1px solid #ffffff18;border-radius:30px;background:linear-gradient(160deg,#1c3448,#101b29 70%);box-shadow:0 24px 90px #0008;color:#fff}
+.call-app-label{font-size:11px;letter-spacing:3px;color:#8daec6;font-weight:800}
+.call-avatar{width:112px;height:112px;margin:28px auto 18px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#3390ec,#8b75e8);font-size:42px;font-weight:800;box-shadow:0 0 0 10px #3390ec19,0 0 0 22px #3390ec0d}
+.call-peer-name{font-size:25px;margin:0 0 8px;overflow-wrap:anywhere}.call-state{color:#b8c9d8;min-height:24px;font-size:14px}
+.call-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:28px}.call-actions button{border-radius:24px;padding:13px 16px;min-height:48px}.call-accept{background:#159b69;color:white}.call-decline{background:#d84b5b;color:white}.call-secondary{background:#2d4559;color:white}.call-footnote{font-size:11px;color:#8fa4b6;margin-top:22px;line-height:1.5}
+#remoteCallAudio{display:none}
+@media(min-width:900px){.call-panel{width:410px;padding:38px 30px}}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top"><div><div class="brand">Bor<span>by</span></div><div class="sub" id="topSub">Твой круг общения</div></div><button id="topAction" class="ghost">Войти</button></header>
+  <main class="content">
+    <section id="authView" class="card hidden">
+      <h2 class="title" id="authTitle">Вход в Borby</h2>
+      <div class="stack">
+        <label class="fieldlabel" for="authEmail">Электронная почта</label><input id="authEmail" type="email" placeholder="you@example.com" autocomplete="email">
+        <label class="fieldlabel" for="authPassword">Пароль (минимум 6 символов)</label><input id="authPassword" type="password" placeholder="Пароль" autocomplete="current-password">
+        <div id="signupFields" class="stack hidden">
+          <label class="fieldlabel" for="authUsername">Никнейм (3–24 символа, латиница/цифры/_)</label><input id="authUsername" maxlength="24" placeholder="my_nick" autocomplete="username">
+          <label class="fieldlabel" for="authDisplay">Имя в Borby</label><input id="authDisplay" maxlength="40" placeholder="Как тебя показывать">
+        </div>
+        <button id="authSubmit">Войти</button>
+        <button id="toggleAuth" class="ghost">Создать аккаунт</button>
+        <div id="authStatus" class="small muted"></div>
+      </div>
+    </section>
+
+    <section id="mainView" class="hidden">
+      <section id="chatsPage" class="page">
+        <div class="row" style="justify-content:space-between;padding:0 2px 8px"><div class="brand">Bor<span>by</span></div><button id="newChatBtn" class="ghost" aria-label="Новый чат">✎</button></div>
+        <div class="stories" aria-label="Истории">
+          <button class="story" type="button"><span class="story-ring"><span class="avatar">＋</span></span><span class="story-label">Моя история</span></button>
+          <button class="story" type="button"><span class="story-ring"><span class="avatar">B</span></span><span class="story-label">Друзья</span></button>
+          <button class="story" type="button"><span class="story-ring"><span class="avatar">✦</span></span><span class="story-label">Интересное</span></button>
+          <button class="story" type="button"><span class="story-ring"><span class="avatar">☾</span></span><span class="story-label">Избранное</span></button>
+          <button class="story" type="button"><span class="story-ring"><span class="avatar">☺</span></span><span class="story-label">Сообщество</span></button>
+        </div>
+        <div class="searchrow" style="margin-bottom:12px"><input id="chatSearch" placeholder="⌕  Поиск чатов"><button id="newChatBtnAlt" class="ghost" aria-label="Найти друзей">＋</button></div>
+        <div class="chat-filters"><button class="chat-filter active" type="button">Все чаты</button><button class="chat-filter" type="button">Личные</button><button class="chat-filter" type="button">Непрочитанные</button></div>
+        <div id="chatList" class="card"><div class="empty">Пока нет чатов. Найди друга во вкладке «Контакты».</div></div>
+      </section>
+
+      <section id="contactsPage" class="page hidden">
+        <div class="row" style="justify-content:space-between;padding:0 2px 12px"><h2 class="title" style="margin:0">Контакты</h2><span class="muted" style="font-size:20px">☷</span></div>
+        <div class="searchrow" style="margin-bottom:12px"><input id="userSearch" placeholder="⌕  Поиск контактов"><button id="userSearchBtn">Найти</button></div>
+        <div class="card"><div class="item"><div class="settings-icon">♙</div><div class="grow"><b>Пригласить друзей</b><div class="sub">Скоро в Borby</div></div></div><div class="item"><div class="settings-icon green">☎</div><div class="grow"><b>Недавние звонки</b><div class="sub">История звонков</div></div></div></div>
+        <div class="card"><div class="sub" style="color:#78c6ff;font-weight:700;margin:0 0 8px">Пользователи Borby</div>
+          <div id="userSearchStatus" class="small muted" style="margin-top:10px"></div>
+        </div>
+        <div id="userResults" class="card"><div class="empty">Введи никнейм друга, чтобы найти его.</div></div>
+      </section>
+
+      <section id="settingsPage" class="page hidden">
+        <div class="card"><h2 class="title">Настройки</h2>
+          <div class="settings-row"><div class="settings-icon">👤</div><div class="grow"><b>Аккаунт</b><div class="sub">Email, имя пользователя и профиль</div></div><span class="muted">›</span></div>
+          <div class="settings-row"><div class="settings-icon orange">☷</div><div class="grow"><b>Настройки чатов</b><div class="sub">Оформление и отображение сообщений</div></div><span class="muted">›</span></div>
+          <div class="settings-row"><div class="settings-icon green">🔑</div><div class="grow"><b>Конфиденциальность</b><div class="sub">Доступ к аккаунту и данным</div></div><span class="muted">›</span></div>
+          <div class="settings-row"><div class="settings-icon red">◖</div><div class="grow"><b>Уведомления</b><div class="sub">Настройки уведомлений</div></div><span class="muted">›</span></div>
+          <div class="settings-row"><div class="settings-icon" style="background:linear-gradient(145deg,#598cff,#3562d9)">◔</div><div class="grow"><b>Данные и память</b><div class="sub">Облачная синхронизация сообщений</div></div><span class="muted">›</span></div>
+          <div class="settings-row"><div class="settings-icon">▰</div><div class="grow"><b>Папки с чатами</b><div class="sub">Организация переписок</div></div><span class="muted">›</span></div>
+          <div class="settings-row"><div class="settings-icon cyan">▣</div><div class="grow"><b>Устройства</b><div class="sub">Текущий сеанс</div></div><span class="muted">›</span></div>
+          <div class="settings-row"><div class="settings-icon orange">▱</div><div class="grow"><b>Энергосбережение</b><div class="sub">Оптимизация работы приложения</div></div><span class="muted">›</span></div>
+          <div class="settings-row"><div class="settings-icon purple">🌐</div><div class="grow"><b>Язык</b><div class="sub">Русский</div></div><span class="muted">›</span></div>
+          <p class="footnote" style="margin-top:14px">Borby · настройки приложения</p>
+        </div>
+      </section>
+
+      <section id="profilePage" class="page hidden">
+        <div class="card"><div class="profilehero"><div class="avatar" id="myAvatar" title="Нажми, чтобы выбрать аватарку" style="cursor:pointer">B</div><div class="row" style="justify-content:center;gap:8px;margin:-2px 0 12px"><button type="button" class="ghost" id="chooseAvatarBtn">📷 Изменить фото</button><button type="button" class="dangerbtn" id="removeAvatarBtn">Удалить фото</button><input id="avatarFileInput" type="file" accept="image/*" class="hidden"></div><h2 class="title" id="myDisplay">Профиль</h2><div class="muted" id="myUsername">@username</div><div class="sub" style="margin-top:5px">Профиль Borby</div></div>
+          <div class="profile-actions"><button type="button" onclick="document.getElementById('editDisplay').focus()"><strong>✎</strong>Изменить</button><button type="button" onclick="document.getElementById('editBio').focus()"><strong>▣</strong>О себе</button><button type="button" onclick="document.querySelector('[data-page=settings]')?.click()"><strong>⚙</strong>Настройки</button></div>
+          <div class="profile-info"><div class="info-value" id="profileEmail">Аккаунт Borby</div><div class="info-label">Электронная почта</div><div class="info-value" id="profileBioPreview">Расскажи немного о себе</div><div class="info-label">О себе</div></div>
+          <div class="card" style="margin-top:12px;margin-bottom:0"><div class="row" style="justify-content:space-between"><div><div class="sub">Баланс Borby</div><div class="title golda" id="walletBalance" style="margin:2px 0 0">G —</div></div><button id="openGiftShop" type="button" class="ghost">🎁 Подарки</button></div><div id="walletStatus" class="small muted" style="margin-top:8px"></div><div id="myGiftInventory" class="small muted" style="margin-top:8px"></div></div>
+          <div class="stack" style="margin-top:16px"><label class="fieldlabel" for="editDisplay">Имя</label><input id="editDisplay" maxlength="40" placeholder="Имя">
+          <label class="fieldlabel" for="editBio">О себе</label><textarea id="editBio" rows="3" maxlength="160" placeholder="Расскажи немного о себе"></textarea>
+          <button id="adminSelfManage" class="ghost hidden" type="button">🛡 Управление моим аккаунтом</button><button id="saveProfileBtn">Сохранить профиль</button><button id="signOutBtn" class="dangerbtn">Выйти из аккаунта</button><div id="profileStatus" class="small muted"></div></div>
+        </div>
+      </section>
+
+      <section id="conversationPage" class="hidden">
+        <div class="card chatwindow"><div class="row"><button id="backChats" class="ghost">←</button><div class="avatar" id="peerAvatar">?</div><div class="grow"><b id="peerName">Чат</b><div class="sub" id="peerNick"></div><div class="sub" id="peerPresence"><span class="offline-dot"></span>Не в сети</div></div><button id="audioCallBtn" class="call-icon-btn" type="button" title="Позвонить" aria-label="Аудиозвонок">☎</button></div>
+          <div class="messages" id="messages"><div class="empty">Загрузка сообщений…</div></div>
+          <div class="sendrow"><button id="galleryMediaBtn" class="ghost" type="button" title="Выбрать фото или видео из галереи" aria-label="Выбрать из галереи">🖼️</button><input id="galleryFileInput" type="file" multiple class="hidden" accept="image/*,video/*"><button id="attachMediaBtn" class="ghost" type="button" title="Прикрепить файл (до 10 МБ)" aria-label="Прикрепить файл до 10 МБ">＋</button><input id="mediaFileInput" type="file" multiple class="hidden" accept="*/*"><textarea id="messageInput" rows="1" maxlength="4000" placeholder="Сообщение…"></textarea><button id="sendBtn">➤</button></div><div id="mediaUploadStatus" class="small muted" style="margin-top:5px"></div>
+          <div id="messageStatus" class="small muted"></div>
+        </div>
+      </section>
+    </section>
+    <div id="globalStatus" class="small muted" style="padding:4px 4px 12px"></div>
+  </main>
+</div>
+<div id="peerModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="Профиль пользователя">
+  <div class="modal">
+    <div class="modal-head"><h2 class="title" style="margin:0">Профиль пользователя</h2><button id="closePeerModal" class="ghost" type="button">✕</button></div>
+    <div id="peerModalContent"></div>
+  </div>
+</div>
+
+<div id="callOverlay" class="call-overlay hidden" role="dialog" aria-modal="true" aria-label="Аудиозвонок">
+  <div class="call-panel">
+    <div class="call-app-label">BORBY · AUDIO</div>
+    <div id="callAvatar" class="call-avatar">B</div>
+    <h2 id="callPeerName" class="call-peer-name">Аудиозвонок</h2>
+    <div id="callState" class="call-state">Подключение…</div>
+    <div id="incomingCallActions" class="call-actions hidden"><button id="acceptCallBtn" class="call-accept" type="button">☎ Принять</button><button id="declineCallBtn" class="call-decline" type="button">Отклонить</button></div>
+    <div id="activeCallActions" class="call-actions hidden"><button id="muteCallBtn" class="call-secondary" type="button">🎙 Выключить микрофон</button><button id="endCallBtn" class="call-decline" type="button">Завершить</button></div>
+    <div class="call-footnote">Нужен HTTPS-сайт и разрешение браузера на микрофон. Оба пользователя должны быть онлайн.</div>
+  </div>
+</div>
+<audio id="remoteCallAudio" autoplay playsinline></audio>
+
+<nav class="tabs hidden" id="tabs">
+  <button class="tab active" data-page="chats"><b>☏</b>Чаты</button>
+  <button class="tab" data-page="contacts"><b>♙</b>Контакты</button>
+  <button class="tab" data-page="settings"><b>⚙</b>Настройки</button>
+  <button class="tab" data-page="profile"><b>◉</b>Профиль</button>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  let sb = null, currentUser = null, myProfile = null, authMode = 'login';
+  let activeChat = null, activePeer = null, selectedProfile = null, walletBalance = 0, isAdmin = false, messageChannel = null, chatChannel = null, onlineChannel = null, presencePollTimer = null, chatsCache = [], activeChatFilter = 'all', authListenerRegistered = false, loadingChats = false, messagePollTimer = null, chatPollTimer = null, messageLoadInProgress = false;
+  const status = (id, text, cls='') => { const el=$(id); if(!el)return; el.textContent=text; el.className='small '+(cls||'muted'); };
+  const safe = s => String(s ?? '');
+  const initials = s => safe(s).trim().slice(0,1).toUpperCase() || '?';
+  const esc = s => safe(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const time = d => { try { return new Date(d).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); } catch { return ''; } };
+  const verifiedMark = (username, verified=false) => (verified || String(username||'').toLowerCase()==='admin') ? '<span class="verified" title="Подтверждённый профиль">✓</span>' : '';
+  const SUPABASE_URL = 'https://cetakuukfyhodensuzsu.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_tHWzaAL46DvKN-L197EKvg_8arZmEZu';
+  function showAuth(){ $('authView').classList.remove('hidden'); $('mainView').classList.add('hidden'); $('tabs').classList.add('hidden'); $('topAction').textContent='Повторить'; }
+  function showMain(){ $('authView').classList.add('hidden'); $('mainView').classList.remove('hidden'); $('tabs').classList.remove('hidden'); $('topAction').textContent='Обновить'; }
+  function setAuthMode(mode){ authMode=mode; $('authTitle').textContent=mode==='login'?'Вход в Borby':'Создать аккаунт'; $('authSubmit').textContent=mode==='login'?'Войти':'Зарегистрироваться'; $('toggleAuth').textContent=mode==='login'?'Создать аккаунт':'У меня уже есть аккаунт'; $('signupFields').classList.toggle('hidden',mode==='login'); $('authPassword').autocomplete=mode==='login'?'current-password':'new-password'; status('authStatus',''); }
+  function page(name){ document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden')); $('conversationPage').classList.add('hidden'); const target=$(name+'Page'); if(target)target.classList.remove('hidden'); document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.page===name)); }
+  function stopPolling(){ if(messagePollTimer)clearInterval(messagePollTimer); if(chatPollTimer)clearInterval(chatPollTimer); messagePollTimer=null; chatPollTimer=null; }
+  function closeRealtime(){ if(messageChannel&&sb)sb.removeChannel(messageChannel); if(chatChannel&&sb)sb.removeChannel(chatChannel); if(onlineChannel&&sb)sb.removeChannel(onlineChannel); if(presencePollTimer)clearInterval(presencePollTimer); presencePollTimer=null; messageChannel=null; chatChannel=null; onlineChannel=null; onlineUsers=new Set(); stopPolling(); }
+  let onlineUsers=new Set();
+  const PRESENCE_ONLINE_MS=60000;
+  function isUserOnline(id){const peer=chatsCache.find(c=>String(c.peer?.id)===String(id))?.peer;const seen=peer?.last_seen_at|| (String(activePeer?.id)===String(id)?activePeer?.last_seen_at:null);return !!seen&&(Date.now()-Date.parse(seen)<PRESENCE_ONLINE_MS);}
+  function renderPeerPresence(){if(!$('peerPresence')||!activePeer)return;const online=isUserOnline(activePeer.id);$('peerPresence').innerHTML=online?'<span class="online-dot"></span>В сети':'<span class="offline-dot"></span>Не в сети';}
+  async function refreshPresence(){
+    if(!sb||!currentUser||document.visibilityState==='hidden')return;
+    try{
+      const beat=await sb.rpc('borby_set_presence');
+      if(beat.error)throw beat.error;
+      const ids=[...new Set(chatsCache.map(c=>c.peer?.id).filter(Boolean))];
+      if(activePeer?.id&&!ids.includes(activePeer.id))ids.push(activePeer.id);
+      if(ids.length){
+        const {data,error}=await sb.from('profiles').select('id,last_seen_at').in('id',ids);
+        if(error)throw error;
+        const seenById=new Map((data||[]).map(p=>[String(p.id),p.last_seen_at]));
+        chatsCache=chatsCache.map(c=>({...c,peer:{...c.peer,last_seen_at:seenById.get(String(c.peer.id))||null}}));
+        if(activePeer)activePeer={...activePeer,last_seen_at:seenById.get(String(activePeer.id))||null};
+      }
+      renderChats();renderPeerPresence();
+    }catch(e){console.error('Borby DB presence error:',e);status('globalStatus','Не удалось обновить онлайн-статус: '+(e?.message||e)+'. Проверь SQL-функцию и RLS.','error');}
+  }
+  function startPresence(){
+    if(!sb||!currentUser)return;
+    if(presencePollTimer)clearInterval(presencePollTimer);
+    refreshPresence();
+    presencePollTimer=setInterval(refreshPresence,15000);
+    document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshPresence();});
+  }
+  function startChatPolling(){
+    if(messagePollTimer)clearInterval(messagePollTimer);
+    messagePollTimer=setInterval(()=>{if(activeChat&&currentUser&&document.visibilityState==='visible')loadMessages({quiet:true,latestOnly:true});},1500);
+    if(chatPollTimer)clearInterval(chatPollTimer);
+    chatPollTimer=setInterval(()=>{if(currentUser&&document.visibilityState==='visible'&&!loadingChats)loadChats();},15000);
+  }
+  async function connect(){
+    const url=SUPABASE_URL, key=SUPABASE_KEY;
+    showAuth();
+    if(!window.supabase){ status('authStatus','Не загрузилась библиотека Supabase. Проверь интернет или отключи блокировщик и нажми «Повторить».','error'); return; }
+    try {
+      if(!sb) sb=window.supabase.createClient(url,key, { auth: { persistSession:true, autoRefreshToken:true, detectSessionInUrl:true } });
+      if(!authListenerRegistered){
+        authListenerRegistered=true;
+        sb.auth.onAuthStateChange((event,session)=>{
+          if(event==='SIGNED_OUT'||(!session && event==='SIGNED_OUT')){
+            currentUser=null;myProfile=null;activeChat=null;closeRealtime();showAuth();
+          }
+        });
+      }
+      status('authStatus','Проверяем сессию…');
+      const result = await Promise.race([
+        sb.auth.getSession(),
+        new Promise((_,reject)=>setTimeout(()=>reject(new Error('Сервер не ответил за 8 секунд. Проверь интернет/VPN и попробуй войти ещё раз.')),8000))
+      ]);
+      if(result.error) throw result.error;
+      if(result.data?.session){ currentUser=result.data.session.user; await afterLogin(); }
+      else { showAuth(); status('authStatus','Готово к входу в Borby.',''); }
+    } catch(e){
+      showAuth();
+      status('authStatus','Не удалось проверить подключение: '+(e?.message||'ошибка сети')+'. Можно попробовать войти ещё раз.','error');
+      // Keep the Supabase client available so the login form can still attempt authentication.
+    }
+  }
+  try{if(localStorage.getItem('borby-theme')==='light')document.body.classList.add('light-theme');}catch{}
+  async function afterLogin(){
+    closeRealtime();
+    const {data:{user}}=await sb.auth.getUser(); currentUser=user;
+    if(!currentUser){showAuth();return;}
+    let {data,error}=await sb.from('profiles').select('*').eq('id',currentUser.id).maybeSingle();
+    if(error){showMain();status('globalStatus','Не удалось загрузить профиль. Проверь таблицу profiles и политики RLS: '+error.message,'error');return;}
+    // Подстраховка для аккаунтов, созданных без триггера profiles.
+    if(!data){
+      const meta=currentUser.user_metadata||{};
+      const username=String(meta.username||((currentUser.email||'user').split('@')[0])).toLowerCase().replace(/[^a-z0-9_]/g,'_').slice(0,24).padEnd(3,'_');
+      const display=String(meta.display_name||username).slice(0,40);
+      const created=await sb.from('profiles').upsert({id:currentUser.id,username,display_name:display},{onConflict:'id'}).select().maybeSingle();
+      if(created.error){showMain();status('globalStatus','Аккаунт вошёл, но профиль не создан: '+created.error.message,'error');myProfile=null;return;}
+      data=created.data;
+    }
+    myProfile=data;
+    try{const {data:adminData}=await sb.rpc('borby_is_admin');isAdmin=adminData===true || String(data?.username||'').trim().toLowerCase()==='admin';}catch{isAdmin=String(data?.username||'').trim().toLowerCase()==='admin';}
+    showMain(); $('topSub').textContent='Привет, '+(myProfile?.display_name||currentUser.email||'друг');
+    subscribeCallSignals();
+    renderProfile(); startPresence(); await refreshWallet(); await loadChats(); startChatPolling(); if(window.borbyKickTimer)clearInterval(window.borbyKickTimer); window.borbyKickTimer=setInterval(checkKickRequest,5000); await checkKickRequest();
+  }
+  const BORBY_AVATAR_KEY=()=>`borby-avatar:${currentUser?.id||'guest'}`;
+  function applyMyAvatar(){
+    const el=$('myAvatar'); if(!el)return; let src=''; try{src=localStorage.getItem(BORBY_AVATAR_KEY())||'';}catch{}
+    const name=myProfile?.display_name||'Пользователь'; el.innerHTML=src?`<img src="${src}" alt="Аватарка">`:esc(initials(name));
+  }
+  function setupAvatarControls(){
+    const input=$('avatarFileInput'), choose=$('chooseAvatarBtn'), remove=$('removeAvatarBtn'), avatar=$('myAvatar'); if(!input||input.dataset.ready)return; input.dataset.ready='1';
+    const pick=()=>input.click(); choose?.addEventListener('click',pick); avatar?.addEventListener('click',pick);
+    input.addEventListener('change',()=>{const file=input.files?.[0];if(!file)return;if(!file.type.startsWith('image/')){status('profileStatus','Выбери файл изображения.','error');return;}if(file.size>3*1024*1024){status('profileStatus','Фото должно быть меньше 3 МБ.','error');input.value='';return;}const reader=new FileReader();reader.onload=()=>{try{localStorage.setItem(BORBY_AVATAR_KEY(),String(reader.result));applyMyAvatar();status('profileStatus','Аватарка сохранена на этом устройстве. Для синхронизации с другими устройствами нужно подключить хранилище Supabase.','success');}catch(e){status('profileStatus','Не удалось сохранить фото: память браузера заполнена.','error');}};reader.readAsDataURL(file);});
+    remove?.addEventListener('click',()=>{try{localStorage.removeItem(BORBY_AVATAR_KEY());}catch{}input.value='';applyMyAvatar();status('profileStatus','Аватарка удалена.','success');});
+  }
+  function renderProfile(){
+    const name=myProfile?.display_name||'Пользователь', nick=myProfile?.username||'';
+    $('myDisplay').innerHTML=esc(name)+verifiedMark(nick, myProfile?.is_verified); $('myUsername').textContent='@'+nick; applyMyAvatar(); setupAvatarControls();
+    $('editDisplay').value=myProfile?.display_name||''; $('editBio').value=myProfile?.bio||''; const selfAdmin=$('adminSelfManage'); if(selfAdmin)selfAdmin.classList.toggle('hidden',!isAdmin); if($('profileEmail'))$('profileEmail').textContent=currentUser?.email||'Аккаунт Borby'; if($('profileBioPreview'))$('profileBioPreview').textContent=myProfile?.bio||'Расскажи немного о себе';
+  }
+  async function authSubmit(){
+    if(!sb){status('authStatus','Сначала подключи Supabase.','error');return;}
+    const email=$('authEmail').value.trim(), password=$('authPassword').value;
+    if(!email||password.length<6){status('authStatus','Укажи email и пароль минимум из 6 символов.','error');return;}
+    $('authSubmit').disabled=true;
+    try{
+      if(authMode==='login'){
+        const {error}=await sb.auth.signInWithPassword({email,password});if(error)throw error;
+        await afterLogin();status('globalStatus','Вход выполнен.','success');
+      } else {
+        const username=$('authUsername').value.trim().toLowerCase(), display=$('authDisplay').value.trim()||username;
+        if(!/^[a-z0-9_]{3,24}$/.test(username))throw new Error('Ник: 3–24 символа, только a-z, цифры и _.');
+        const {data,error}=await sb.auth.signUp({email,password,options:{data:{username,display_name:display}}});if(error)throw error;
+        if(data.session){currentUser=data.user; const {error:pe}=await sb.from('profiles').upsert({id:data.user.id,username,display_name:display},{onConflict:'id'});if(pe)throw pe; await afterLogin();status('globalStatus','Аккаунт создан. Добро пожаловать в Borby!','success');}
+        else status('authStatus','Аккаунт создан. Проверь почту, чтобы подтвердить адрес, затем войди в Borby.','success');
+      }
+    }catch(e){status('authStatus',e.message,'error');}finally{$('authSubmit').disabled=false;}
+  }
+  async function saveProfile(){
+    if(!currentUser)return;
+    const display=$('editDisplay').value.trim(), bio=$('editBio').value.trim();
+    if(!display){status('profileStatus','Имя не может быть пустым.','error');return;}
+    const {data,error}=await sb.from('profiles').update({display_name:display,bio}).eq('id',currentUser.id).select().maybeSingle();
+    if(error){status('profileStatus','Не удалось сохранить профиль: '+error.message,'error');return;}if(!data){status('profileStatus','Профиль не обновлён. Проверь политики доступа RLS.','error');return;}myProfile=data;renderProfile();$('topSub').textContent='Привет, '+display;status('profileStatus','Профиль сохранён.','success');
+  }
+  async function searchUsers(){
+    if(!sb||!currentUser){status('userSearchStatus','Сначала войди в аккаунт.','error');return;}
+    const q=$('userSearch').value.trim().replace(/^@/,'').toLowerCase().replace(/[%,()]/g,''); if(q.length<3){status('userSearchStatus','Введи минимум 3 символа.');return;}
+    status('userSearchStatus','Ищем…'); $('userResults').innerHTML='';
+    let result=await sb.from('profiles').select('id,username,display_name,bio,is_verified').ilike('username','%'+q+'%').neq('id',currentUser.id).limit(20);
+    // Keep search working on databases that predate optional bio/verification fields.
+    if(result.error && /is_verified|bio|column/i.test(result.error.message||'')){
+      result=await sb.from('profiles').select('id,username,display_name').ilike('username','%'+q+'%').neq('id',currentUser.id).limit(20);
+    }
+    const {data,error}=result;
+    if(error){status('userSearchStatus','Ошибка поиска: '+error.message,'error');return;}
+    const users=data||[];
+    status('userSearchStatus',users.length?'Найдено: '+users.length:'Ник не найден.',users.length?'success':'');
+    $('userResults').innerHTML=users.map(u=>`<div class="item"><div class="avatar">${esc(initials(u.display_name||u.username))}</div><div class="grow"><b class="name-line">${esc(u.display_name||u.username)}${verifiedMark(u.username,u.is_verified)}</b><div class="sub">@${esc(u.username)} ${u.bio?'· '+esc(u.bio):''}</div></div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="ghost" data-profile="${esc(u.id)}">Профиль</button><button data-start="${esc(u.id)}">Написать</button></div></div>`).join('')||'<div class="empty">Пользователи не найдены.</div>';
+    $('userResults').querySelectorAll('[data-start]').forEach(b=>b.addEventListener('click',()=>startChat(b.dataset.start)));
+    $('userResults').querySelectorAll('[data-profile]').forEach(b=>b.addEventListener('click',()=>openPeerProfile(data.find(u=>u.id===b.dataset.profile))));
+  }
+  const openingPeerChats = new Map();
+  function preferredChatForPeer(peerId, chats=chatsCache){
+    const matches=chats.filter(c=>c.peer?.id===peerId);
+    if(!matches.length)return null;
+    // Prefer the conversation with the newest message; otherwise keep the first existing chat.
+    return matches.reduce((best,c)=>{
+      if(!best)return c;
+      const bt=best.latest?.created_at ? Date.parse(best.latest.created_at) : 0;
+      const ct=c.latest?.created_at ? Date.parse(c.latest.created_at) : 0;
+      return ct>bt ? c : best;
+    },null);
+  }
+  async function startChat(peerId){
+    if(!peerId||!currentUser||peerId===currentUser.id)return;
+    // Reuse a conversation already loaded into the chat list before querying or creating anything.
+    const cached=preferredChatForPeer(peerId);
+    if(cached){await openChat(cached.id,cached.peer);return;}
+    // Prevent two fast taps from creating two chats for the same person in this browser.
+    if(openingPeerChats.has(peerId))return openingPeerChats.get(peerId);
+    const task=(async()=>{
+      try{
+        const {data:existing,error:findErr}=await sb.from('chat_members').select('chat_id').eq('user_id',currentUser.id);
+        if(findErr)throw new Error('Не удалось найти ваши чаты: '+findErr.message);
+        let chatId=null;
+        const existingIds=[...new Set((existing||[]).map(row=>row.chat_id).filter(Boolean))];
+        const found=[];
+        if(existingIds.length){
+          // Fetch memberships in one request instead of checking every chat serially.
+          const {data:allMembers,error:membersErr}=await sb.from('chat_members').select('chat_id,user_id').in('chat_id',existingIds);
+          if(membersErr)throw new Error('Не удалось проверить участников чата: '+membersErr.message);
+          const matchingIds=[...new Set((allMembers||[]).filter(m=>m.user_id===peerId).map(m=>m.chat_id))];
+          const latestRows=await Promise.all(matchingIds.map(async id=>{
+            const {data:latest,error:latestError}=await sb.from('messages').select('id,body,created_at,sender_id').eq('chat_id',id).order('created_at',{ascending:false}).limit(1);
+            if(latestError)throw new Error('Не удалось проверить историю чата: '+latestError.message);
+            return {id,peer:{id:peerId},latest:latest?.[0]||null};
+          }));
+          found.push(...latestRows);
+        }
+        const prior=preferredChatForPeer(peerId,found);
+        if(prior)chatId=prior.id;
+        if(!chatId){
+          // Recheck the cache immediately before insert in case a refresh found the chat meanwhile.
+          const justLoaded=preferredChatForPeer(peerId);
+          if(justLoaded)chatId=justLoaded.id;
+        }
+        if(!chatId){
+          const {data:chat,error:chatErr}=await sb.from('chats').insert({created_by:currentUser.id}).select().single();
+          if(chatErr)throw new Error('Не удалось создать чат: '+chatErr.message);
+          chatId=chat.id;
+          const {error:membersInsertErr}=await sb.from('chat_members').insert([{chat_id:chatId,user_id:currentUser.id},{chat_id:chatId,user_id:peerId}]);
+          if(membersInsertErr){
+            // Avoid leaving an empty orphan chat when membership creation fails.
+            await sb.from('chats').delete().eq('id',chatId);
+            throw new Error('Не удалось добавить участников: '+membersInsertErr.message);
+          }
+        }
+        let peerResult=await sb.from('profiles').select('id,username,display_name,is_verified,last_seen_at').eq('id',peerId).single();
+        if(peerResult.error && /is_verified|last_seen_at|column/i.test(peerResult.error.message||'')){
+          peerResult=await sb.from('profiles').select('id,username,display_name').eq('id',peerId).single();
+        }
+        const {data:peer,error:peerErr}=peerResult;
+        if(peerErr)throw new Error('Чат найден, но профиль собеседника не загрузился: '+peerErr.message);
+        await openChat(chatId,peer||{id:peerId,username:'user',display_name:'Пользователь'});
+        await loadChats();
+      }catch(e){status('globalStatus',e?.message||'Не удалось открыть чат.','error');}
+      finally{openingPeerChats.delete(peerId);}
+    })();
+    openingPeerChats.set(peerId,task);
+    return task;
+  }
+  async function loadChats(){
+    if(!sb||!currentUser||loadingChats)return;
+    loadingChats=true;
+    try{
+      const {data:members,error}=await sb.from('chat_members').select('chat_id').eq('user_id',currentUser.id);
+      if(error)throw error;
+      const ids=[...new Set((members||[]).map(m=>m.chat_id).filter(Boolean))];
+      if(!ids.length){chatsCache=[];renderChats();return;}
+      // Bulk-load memberships once; the old implementation made several sequential requests per chat.
+      const {data:allMembers,error:membersError}=await sb.from('chat_members').select('chat_id,user_id').in('chat_id',ids);
+      if(membersError)throw membersError;
+      const peerByChat=new Map();
+      for(const row of allMembers||[]){
+        if(row.user_id!==currentUser.id&&!peerByChat.has(row.chat_id))peerByChat.set(row.chat_id,row.user_id);
+      }
+      const peerIds=[...new Set(peerByChat.values())];
+      if(!peerIds.length){chatsCache=[];renderChats();return;}
+      // Load profiles and previews independently: a denied/missing messages or profiles
+      // query must not blank the entire chat list.
+      let profileResult=await sb.from('profiles').select('id,username,display_name,is_verified,last_seen_at').in('id',peerIds);
+      if(profileResult.error && /is_verified|last_seen_at|column/i.test(profileResult.error.message||'')){
+        profileResult=await sb.from('profiles').select('id,username,display_name').in('id',peerIds);
+      }
+      let profiles=profileResult.data||[];
+      if(profileResult.error){
+        console.warn('Borby: profiles could not be loaded; showing chat fallback names:',profileResult.error.message);
+        status('globalStatus','Чаты загружены, но имена собеседников недоступны: '+profileResult.error.message,'error');
+      }
+      const profileById=new Map(profiles.map(profile=>[profile.id,profile]));
+      const latestByChat=await Promise.all([...peerByChat.entries()].map(async ([id,peerId])=>{
+        try{
+          const {data:latest,error:latestError}=await sb.from('messages').select('id,body,created_at,sender_id').eq('chat_id',id).order('created_at',{ascending:false}).limit(1);
+          if(latestError){
+            console.warn('Borby: last-message preview unavailable for chat',id,latestError.message);
+            return {id,peerId,latest:null,previewError:latestError.message};
+          }
+          return {id,peerId,latest:latest?.[0]||null};
+        }catch(err){return {id,peerId,latest:null,previewError:err?.message||String(err)};}
+      }));
+      const next=latestByChat.map(row=>({id:row.id,peer:profileById.get(row.peerId)||{id:row.peerId,username:'user-'+String(row.peerId).slice(0,6),display_name:'Пользователь'},latest:row.latest}));
+      const previewIssue=latestByChat.find(row=>row.previewError);
+      if(previewIssue && !profileResult.error) status('globalStatus','Список чатов открыт, но превью сообщений недоступно. Проверь права доступа к таблице messages.','error');
+      // A person must occupy only one row even if old duplicate chat records already exist.
+      const byPeer=new Map();
+      for(const chat of next){
+        const peerId=chat.peer?.id;
+        if(!peerId)continue;
+        const previous=byPeer.get(peerId);
+        if(!previous){byPeer.set(peerId,chat);continue;}
+        const previousTime=previous.latest?.created_at ? Date.parse(previous.latest.created_at) : 0;
+        const chatTime=chat.latest?.created_at ? Date.parse(chat.latest.created_at) : 0;
+        if(chatTime>previousTime)byPeer.set(peerId,chat);
+      }
+      chatsCache=[...byPeer.values()].sort((a,b)=>{
+        const at=a.latest?.created_at?Date.parse(a.latest.created_at):0;
+        const bt=b.latest?.created_at?Date.parse(b.latest.created_at):0;
+        return bt-at;
+      });
+      renderChats();
+      if(!chatChannel){
+        chatChannel=sb.channel('borby-chat-list-'+currentUser.id)
+          .on('postgres_changes',{event:'*',schema:'public',table:'messages'},()=>{if(!loadingChats)loadChats();})
+          .subscribe((state)=>{if(state==='CHANNEL_ERROR'||state==='TIMED_OUT')status('globalStatus','Realtime недоступен — сообщения будут обновляться автоматически.');});
+      }
+    }catch(e){
+      console.error('Borby loadChats failed:',e);
+      $('chatList').innerHTML='<div class="empty"><div style="margin-bottom:10px">Не удалось загрузить список чатов.<br><span class="small">'+esc(e?.message||e)+'</span></div><button type="button" id="retryChatsBtn">↻ Попробовать снова</button></div>';
+      const retry=$('retryChatsBtn'); if(retry)retry.addEventListener('click',()=>{retry.disabled=true;retry.textContent='Загружаем…';loadChats();});
+      status('globalStatus','Загрузка чатов не удалась. Нажми «Попробовать снова» или «Обновить» сверху.','error');
+    }
+    finally{loadingChats=false;}
+  }
+  function renderChats(){
+    const q=$('chatSearch').value.trim().toLowerCase();
+    const filtered=chatsCache.filter(c=>{const matches=(String(c.peer.display_name||'')+' '+String(c.peer.username||'')).toLowerCase().includes(q);const unread=!!c.latest&&c.latest.sender_id!==currentUser.id;return matches&&(activeChatFilter!=='unread'||unread);});
+    $('chatList').innerHTML=filtered.map(c=>{const unread=!!c.latest&&c.latest.sender_id!==currentUser.id;return `<button class="chat-row" data-chat="${esc(c.id)}"><div class="avatar">${esc(initials(c.peer.display_name||c.peer.username))}</div><div class="grow"><b class="name-line">${esc(c.peer.display_name||c.peer.username)}${verifiedMark(c.peer.username,c.peer.is_verified)}</b><div class="sub chat-preview"><span class="${isUserOnline(c.peer.id)?'online-dot':'offline-dot'}"></span>${isUserOnline(c.peer.id)?'В сети':'Не в сети'} · @${esc(c.peer.username)} · ${esc(c.latest?.body||'Начните переписку')}</div></div>${unread?'<span class="pill">Новое</span>':''}<span class="sub">${c.latest?time(c.latest.created_at):''}</span></button>`}).join('')||`<div class="empty">${activeChatFilter==='unread'?'Нет чатов с новыми сообщениями.':'Пока нет чатов. Открой «Контакты» и найди друга по нику.'}</div>`;
+    $('chatList').querySelectorAll('[data-chat]').forEach(b=>b.addEventListener('click',()=>{const c=chatsCache.find(x=>x.id===b.dataset.chat);if(c)openChat(c.id,c.peer);}));
+  }
+  async function openChat(chatId,peer){
+    activeChat=chatId;activePeer=peer;page('');$('mainView').classList.remove('hidden');document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));$('conversationPage').classList.remove('hidden');
+    $('peerName').innerHTML=esc(peer.display_name||peer.username)+verifiedMark(peer.username,peer.is_verified);$('peerNick').textContent='@'+peer.username;activePeer=peer;renderPeerPresence();$('peerAvatar').textContent=initials(peer.display_name||peer.username);$('peerName').onclick=()=>openPeerProfile(activePeer);$('peerAvatar').onclick=()=>openPeerProfile(activePeer);$('peerName').style.cursor='pointer';$('messages').innerHTML='<div class="empty">Загрузка сообщений…</div>';status('messageStatus','Подключаем чат…');
+    if(messageChannel&&sb)await sb.removeChannel(messageChannel);messageChannel=null;
+    // Subscribe before fetching history so a message sent during loading is not missed.
+    messageChannel=sb.channel('borby-messages-'+chatId)
+      .on('postgres_changes',{event:'INSERT',schema:'public',table:'messages',filter:'chat_id=eq.'+chatId},payload=>renderNewMessage(payload.new))
+      .on('postgres_changes',{event:'UPDATE',schema:'public',table:'messages',filter:'chat_id=eq.'+chatId},payload=>{if(activeChat===chatId&&payload.new){const old=document.querySelector(`[data-message-id="${CSS.escape(String(payload.new.id))}"]`);if(old)old.remove();addBubble(payload.new);}})
+      .on('postgres_changes',{event:'DELETE',schema:'public',table:'messages',filter:'chat_id=eq.'+chatId},payload=>{const id=payload.old?.id;const old=id!=null?document.querySelector(`[data-message-id="${CSS.escape(String(id))}"]`):null;if(old)old.remove();})
+      .subscribe((state)=>{if(state==='SUBSCRIBED')status('messageStatus','На связи','success');else if(state==='CHANNEL_ERROR'||state==='TIMED_OUT')status('messageStatus','Связь в реальном времени недоступна. Проверяем новые сообщения автоматически.');});
+    await loadMessages();startChatPolling();
+  }
+  async function editOwnMessage(messageId, oldBody){
+    if(!sb||!currentUser||!activeChat)return;
+    if(typeof oldBody==='string'&&(oldBody.startsWith('__BORBY_MEDIA__')||oldBody.startsWith('__BORBY_GIFT__'))){status('messageStatus','Фото, видео и подарки нельзя редактировать.','error');return;}
+    const next=prompt('Измени текст сообщения:',oldBody||'');
+    if(next===null)return;
+    const body=next.trim();
+    if(!body){status('messageStatus','Пустое сообщение нельзя сохранить.','error');return;}
+    if(body.length>4000){status('messageStatus','Максимум 4000 символов.','error');return;}
+    try{
+      const {data,error}=await sb.from('messages').update({body}).eq('id',messageId).eq('sender_id',currentUser.id).select('id,chat_id,sender_id,body,created_at').maybeSingle();
+      if(error)throw error;
+      if(!data)throw new Error('Сообщение не изменено. Проверьте права UPDATE в Supabase.');
+      if(activeChat===data.chat_id){const old=document.querySelector(`[data-message-id="${CSS.escape(String(messageId))}"]`);if(old)old.remove();addBubble(data);}
+      status('messageStatus','Сообщение изменено.','success');
+    }catch(e){status('messageStatus','Не удалось изменить: '+(e?.message||e)+'. Возможно, нужна UPDATE-политика для своих сообщений.','error');}
+  }
+  async function deleteOwnMessage(messageId){
+    if(!sb||!currentUser||!activeChat)return;
+    if(!confirm('Удалить это сообщение? Это действие нельзя отменить.'))return;
+    try{
+      const {data,error}=await sb.from('messages').delete().eq('id',messageId).eq('sender_id',currentUser.id).select('id').maybeSingle();
+      if(error)throw error;
+      if(!data)throw new Error('Сообщение не удалено. Проверьте права DELETE в Supabase.');
+      const el=document.querySelector(`[data-message-id="${CSS.escape(String(messageId))}"]`);if(el)el.remove();
+      if(!$('messages').querySelector('.bubble'))$('messages').innerHTML='<div class="empty">Пока нет сообщений. Напиши первым!</div>';
+      status('messageStatus','Сообщение удалено.','success');if(!loadingChats)loadChats();
+    }catch(e){status('messageStatus','Не удалось удалить: '+(e?.message||e)+'. Возможно, нужна DELETE-политика для своих сообщений.','error');}
+  }
+  function addBubble(m){
+    if(m.id!=null&&$('messages').querySelector(`[data-message-id="${CSS.escape(String(m.id))}"]`))return;
+    const empty=$('messages').querySelector('.empty');if(empty)empty.remove();
+    const el=document.createElement('div');el.className='bubble'+(m.sender_id===currentUser.id?' mine':'');if(m.id!=null)el.dataset.messageId=String(m.id);
+    const prefix='__BORBY_GIFT__';
+    if(typeof m.body==='string'&&m.body.startsWith(prefix)){
+      el.className='bubble gift-bubble'+(m.sender_id===currentUser.id?' mine':'');
+      let gift={};try{gift=JSON.parse(m.body.slice(prefix.length));}catch{}
+      const card=document.createElement('div');card.className='gift-chat-card';
+      const emoji=document.createElement('div');emoji.className='gift-chat-emoji';emoji.textContent=gift.emoji||'🎁';
+      const title=document.createElement('div');title.className='gift-chat-title';title.textContent=gift.name||'Подарок';
+      const sub=document.createElement('div');sub.className='gift-chat-sub';sub.textContent='Подарок для тебя!';
+      card.append(emoji,title,sub);
+      if(gift.price!=null){const price=document.createElement('div');price.className='gift-chat-price';price.textContent='Стоимость: G '+Number(gift.price).toLocaleString('ru-RU');card.append(price);}
+      if(gift.message){const note=document.createElement('div');note.className='gift-chat-note';note.textContent=gift.message;card.append(note);}
+      const from=document.createElement('div');from.className='gift-chat-from';from.textContent='Отправитель: @'+(gift.sender||'пользователь');card.append(from);
+      const button=document.createElement('div');button.className='gift-chat-button';button.textContent='🎁 Подарок получен';card.append(button);el.append(card);
+    }else if(typeof m.body==='string'&&m.body.startsWith('__BORBY_MEDIA__')){
+      let media=null;try{media=JSON.parse(m.body.slice('__BORBY_MEDIA__'.length));}catch{}
+      if(media&&media.url&&['image','video','file'].includes(media.kind)){
+        const link=document.createElement('a');link.href=media.url;link.target='_blank';link.rel='noopener noreferrer';link.className='borby-media-link';
+        if(media.kind==='image'){
+          const img=document.createElement('img');img.src=media.url;img.alt=media.name||'Фото';img.loading='lazy';img.className='borby-chat-image';img.addEventListener('click',e=>{e.preventDefault();window.open(media.url,'_blank','noopener');});link.append(img);
+        }else if(media.kind==='video'){
+          const video=document.createElement('video');video.src=media.url;video.controls=true;video.playsInline=true;video.preload='metadata';video.className='borby-chat-video';link.append(video);
+        }else{
+          const card=document.createElement('div');card.id='borby-file-card';
+          const ico=document.createElement('div');ico.className='borby-file-icon';ico.textContent='📎';
+          const info=document.createElement('div');info.className='borby-file-info';
+          const name=document.createElement('div');name.textContent=media.name||'Файл';info.append(name);
+          if(media.size){const size=document.createElement('div');size.className='borby-file-size';size.textContent=(media.size/1024/1024).toFixed(2)+' МБ';info.append(size);}
+          card.append(ico,info);link.append(card);
+        }
+        if(media.name&&media.kind!=='file'){const caption=document.createElement('div');caption.className='borby-media-name';caption.textContent=media.name;link.append(caption);}el.append(link);
+      }else{const body=document.createElement('div');body.textContent='📎 Медиафайл';el.append(body);}
+    }else{const body=document.createElement('div');body.textContent=m.body;el.append(body);}
+    const t=document.createElement('div');t.className='time';t.textContent=time(m.created_at);el.append(t);
+    if(m.sender_id===currentUser.id && m.id!=null){
+      const actions=document.createElement('div');actions.className='borby-message-actions';
+      if(typeof m.body==='string'&&!m.body.startsWith('__BORBY_MEDIA__')&&!m.body.startsWith('__BORBY_GIFT__')){
+        const edit=document.createElement('button');edit.type='button';edit.className='borby-message-action';edit.textContent='Изменить';edit.addEventListener('click',()=>editOwnMessage(m.id,m.body));actions.append(edit);
+      }
+      const del=document.createElement('button');del.type='button';del.className='borby-message-action danger';del.textContent='Удалить';del.addEventListener('click',()=>deleteOwnMessage(m.id));actions.append(del);el.append(actions);
+    }
+    $('messages').appendChild(el);
+  }
+  async function loadMessages(options={}){
+    if(!sb||!activeChat||messageLoadInProgress)return;
+    const chatAtStart=activeChat;messageLoadInProgress=true;
+    try{
+      // При обычной загрузке получаем историю, при опросе — только последние сообщения.
+      // Это уменьшает объём данных и ускоряет доставку на мобильном интернете.
+      let query=sb.from('messages').select('id,chat_id,sender_id,body,created_at').eq('chat_id',chatAtStart);
+      query=query.order('created_at',{ascending:options.latestOnly?false:true}).limit(options.latestOnly?30:200);
+      if(typeof AbortSignal!=='undefined'&&typeof AbortSignal.timeout==='function'){
+        query=query.abortSignal(AbortSignal.timeout(12000));
+      }
+      const {data,error}=await query;
+      if(error)throw error;
+      if(activeChat!==chatAtStart)return;
+      const box=$('messages');
+      const wasNearBottom=(box.scrollHeight-box.scrollTop-box.clientHeight)<90;
+      const wasEmpty=!box.querySelector('.bubble');
+      const oldHeight=box.scrollHeight;
+      const oldTop=box.scrollTop;
+      const rows=data||[];
+      if(options.latestOnly)rows.reverse();
+      rows.forEach(addBubble);
+      if(!rows.length&&!options.latestOnly){
+        $('messages').innerHTML='<div class="empty">Пока нет сообщений. Напиши первым!</div>';
+      }
+      if(!options.latestOnly || wasEmpty){box.scrollTop=box.scrollHeight;}
+      else if(wasNearBottom){box.scrollTop=box.scrollHeight;}
+      else {box.scrollTop=oldTop+(box.scrollHeight-oldHeight);}
+      if(!options.quiet)status('messageStatus','На связи','success');
+    }catch(e){
+      if(!options.quiet){
+        const msg=(e&&e.name==='TimeoutError')?'Сервер отвечает слишком долго. Проверь интернет и настройки Supabase.':(e?.message||'ошибка сети');
+        $('messages').innerHTML='<div class="empty">Не удалось загрузить сообщения.</div>';
+        status('messageStatus','Ошибка загрузки: '+msg,'error');
+      }
+    }finally{messageLoadInProgress=false;}
+  }
+  function renderNewMessage(m){
+    if(!m||m.chat_id!==activeChat)return;
+    const box=$('messages');const nearBottom=(box.scrollHeight-box.scrollTop-box.clientHeight)<100;addBubble(m);if(nearBottom)box.scrollTop=box.scrollHeight;
+  }
+  async function sendMessage(){
+    const body=$('messageInput').value.trim();if(!body||!activeChat||!currentUser||!sb)return;
+    const chatAtStart=activeChat;$('sendBtn').disabled=true;status('messageStatus','Отправляем…');
+    try{
+      const {data,error}=await sb.from('messages').insert({chat_id:chatAtStart,sender_id:currentUser.id,body}).select('id,chat_id,sender_id,body,created_at').single();
+      if(error)throw error;
+      $('messageInput').value='';renderNewMessage(data);$('messages').scrollTop=$('messages').scrollHeight;status('messageStatus','Сообщение отправлено','success');
+      if(!loadingChats)loadChats();
+    }catch(e){status('messageStatus','Не отправлено: '+(e?.message||'ошибка сети')+'. Проверь таблицу messages и её RLS-политики.','error');}
+    finally{$('sendBtn').disabled=false;$('messageInput').focus();}
+  }
+  const BORBY_MEDIA_BUCKET='chat-media';
+  async function sendSelectedMedia(inputId='mediaFileInput'){
+    const input=$(inputId);const files=Array.from(input.files||[]);if(!files.length)return;
+    if(!activeChat||!currentUser||!sb){status('messageStatus','Сначала открой чат.','error');input.value='';return;}
+    const chatAtStart=activeChat;const caption=$('messageInput').value.trim();
+    const max=10*1024*1024;
+    const tooLarge=files.find(f=>f.size>max);
+    if(tooLarge){status('messageStatus',`Файл «${tooLarge.name}» больше 10 МБ. Выбери файл размером до 10 МБ.`,'error');input.value='';return;}
+    $('attachMediaBtn').disabled=true;$('galleryMediaBtn').disabled=true;$('sendBtn').disabled=true;
+    try{
+      for(let i=0;i<files.length;i++){
+        const file=files[i];
+        $('mediaUploadStatus').textContent=`Загружаем файл ${i+1} из ${files.length}: ${file.name}`;
+        const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_').slice(-90)||'file';
+        const path=`${currentUser.id}/${chatAtStart}/${Date.now()}_${Math.random().toString(36).slice(2,9)}_${safeName}`;
+        const {error:uploadError}=await sb.storage.from(BORBY_MEDIA_BUCKET).upload(path,file,{contentType:file.type||'application/octet-stream',upsert:false,cacheControl:'3600'});
+        if(uploadError)throw new Error(uploadError.message.includes('Bucket not found')?'В Supabase Storage не создан bucket «chat-media». Создай его как Public и разреши загрузку для вошедших пользователей.':uploadError.message);
+        const {data:urlData}=sb.storage.from(BORBY_MEDIA_BUCKET).getPublicUrl(path);
+        const kind=file.type.startsWith('image/')?'image':file.type.startsWith('video/')?'video':'file';
+        const mediaBody='__BORBY_MEDIA__'+JSON.stringify({kind,url:urlData.publicUrl,name:file.name,size:file.size,mime:file.type||'application/octet-stream'});
+        const {data,error}=await sb.from('messages').insert({chat_id:chatAtStart,sender_id:currentUser.id,body:mediaBody}).select('id,chat_id,sender_id,body,created_at').single();
+        if(error)throw new Error('Файл загружен, но сообщение не сохранилось: '+error.message);
+        if(activeChat===chatAtStart)renderNewMessage(data);
+        if(i===0&&caption){
+          const {data:textData,error:textError}=await sb.from('messages').insert({chat_id:chatAtStart,sender_id:currentUser.id,body:caption}).select('id,chat_id,sender_id,body,created_at').single();
+          if(textError)throw new Error('Файл отправлен, но подпись не сохранилась: '+textError.message);
+          if(activeChat===chatAtStart)renderNewMessage(textData);
+        }
+      }
+      if(activeChat===chatAtStart)$('messages').scrollTop=$('messages').scrollHeight;
+      $('messageInput').value='';$('mediaUploadStatus').textContent='Файл отправлен';status('messageStatus','Вложения отправлены','success');
+      if(!loadingChats)loadChats();
+    }catch(e){$('mediaUploadStatus').textContent='';status('messageStatus','Не удалось отправить файл: '+(e?.message||'ошибка сети'),'error');}
+    finally{$('attachMediaBtn').disabled=false;$('galleryMediaBtn').disabled=false;$('sendBtn').disabled=false;input.value='';}
+  }
+  function showModal(html){$('peerModalContent').innerHTML=html;$('peerModal').classList.remove('hidden');}
+  function closeModal(){$('peerModal').classList.add('hidden');selectedProfile=null;}
+  async function refreshWallet(){
+    if(!sb||!currentUser)return;
+    try{
+      const {data,error}=await sb.rpc('borby_get_wallet');if(error)throw error;
+      walletBalance=Number(data||0);$('walletBalance').textContent='G '+walletBalance.toLocaleString('ru-RU');
+      const {data:inv,error:invErr}=await sb.from('borby_gift_inventory').select('id,gift_id,created_at,borby_gifts(name,emoji)').eq('user_id',currentUser.id).order('created_at',{ascending:false}).limit(20);
+      if(invErr)throw invErr;
+      $('myGiftInventory').textContent=inv?.length?'Твои подарки: '+inv.map(x=>(x.borby_gifts?.emoji||'🎁')+' '+(x.borby_gifts?.name||'Подарок')).join(' · '):'Пока нет купленных подарков.';
+      status('walletStatus','Баланс обновлён.','success');
+    }catch(e){status('walletStatus','Не удалось загрузить кошелёк: '+(e?.message||e),'error');}
+  }
+  async function openGiftShop(){
+    if(!currentUser)return;
+    status('walletStatus','Загружаем подарки…');
+    const {data,error}=await sb.from('borby_gifts').select('id,name,emoji,price').eq('active',true).order('price');
+    if(error){status('walletStatus','Не удалось загрузить магазин: '+error.message,'error');return;}
+    showModal(`<div class="row" style="margin-bottom:12px"><div class="grow"><b>Магазин подарков</b><div class="sub">Баланс: <span class="golda">G ${walletBalance}</span></div></div></div><div class="gift-grid">${(data||[]).map(g=>`<div class="gift-card"><div class="gift-emoji">${esc(g.emoji)}</div><b>${esc(g.name)}</b><div class="sub golda" style="margin-top:4px">G ${Number(g.price).toLocaleString('ru-RU')}</div><button data-buy-gift="${g.id}">Купить</button></div>`).join('')||'<div class="empty">Подарков пока нет.</div>'}</div><div id="shopStatus" class="small muted" style="margin-top:10px"></div>`);
+    $('peerModalContent').querySelectorAll('[data-buy-gift]').forEach(b=>b.addEventListener('click',async()=>{
+      b.disabled=true;
+      try{const {data:newBalance,error:buyError}=await sb.rpc('borby_buy_gift',{p_gift_id:Number(b.dataset.buyGift)});if(buyError)throw buyError;walletBalance=Number(newBalance);$('walletBalance').textContent='G '+walletBalance.toLocaleString('ru-RU');status('shopStatus','Подарок куплен!','success');await refreshWallet();await openGiftShop();}
+      catch(e){status('shopStatus',e?.message||'Не удалось купить подарок','error');b.disabled=false;}
+    }));
+  }
+  async function openPeerProfile(peer){
+    if(!peer?.id||(peer.id===currentUser?.id&&!isAdmin))return;
+    selectedProfile=peer;
+    const {data:full,error}=await sb.from('profiles').select('id,username,display_name,bio,is_verified,last_seen_at').eq('id',peer.id).maybeSingle();
+    if(error){status('globalStatus','Не удалось загрузить профиль: '+error.message,'error');return;}
+    if(full)selectedProfile=full;
+    const u=selectedProfile;
+    let adminHtml='';
+    if(isAdmin)adminHtml=`<div class="admin-panel"><h3>🛡 Управление администратора</h3>
+      <button class="ghost" id="toggleVerified" type="button" style="width:100%">${u.is_verified?'Снять галочку':'✓ Выдать галочку'}</button>
+      <div class="stack" style="margin-top:10px"><label class="fieldlabel" for="adminGoldaAmount">Изменить баланс Golda (можно отрицательное число)</label><input id="adminGoldaAmount" type="number" step="1" placeholder="Например: 100 или -50"><button id="adminGoldaSubmit" type="button">Применить Golda</button><button id="adminKick" class="dangerbtn" type="button">Выйти из аккаунта пользователя</button></div>
+      <div id="adminStatus" class="small muted" style="margin-top:9px"></div></div>`;
+    showModal(`<div class="profilehero"><div class="avatar">${esc(initials(u.display_name||u.username))}</div><h2 class="title">${esc(u.display_name||u.username)}${verifiedMark(u.username,u.is_verified)}</h2><div class="muted">@${esc(u.username)}</div><p class="sub">${esc(u.bio||'Пользователь Borby')}</p></div><div class="modal-actions"><button id="peerWrite" type="button">✉ Написать</button><button id="peerGift" type="button" class="ghost">🎁 Подарить за Golda</button></div>${adminHtml}`);
+    $('peerWrite').addEventListener('click',()=>{const target=selectedProfile;closeModal();startChat(target.id);});
+    $('peerGift').addEventListener('click',()=>openSendGiftShop(selectedProfile));
+    if(isAdmin){
+      $('toggleVerified').addEventListener('click',async()=>{
+        const b=$('toggleVerified');b.disabled=true;
+        try{const {error:e}=await sb.rpc('borby_set_verified',{p_username:u.username,p_verified:!u.is_verified});if(e)throw e;u.is_verified=!u.is_verified;status('adminStatus',u.is_verified?'Галочка выдана.':'Галочка снята.','success');openPeerProfile(u);await loadChats();}
+        catch(e){status('adminStatus',e?.message||'Ошибка','error');b.disabled=false;}
+      });
+      $('adminGoldaSubmit').addEventListener('click',async()=>{
+        const amount=Number($('adminGoldaAmount').value);if(!Number.isSafeInteger(amount)||amount===0){status('adminStatus','Укажи целое ненулевое число.','error');return;}
+        const button=$('adminGoldaSubmit');button.disabled=true;
+        try{const {data,error:e}=await sb.rpc('borby_admin_adjust_golda',{p_username:u.username,p_amount:amount});if(e)throw e;status('adminStatus','Новый баланс: G '+Number(data).toLocaleString('ru-RU'),'success');if(u.id===currentUser.id)await refreshWallet();}
+        catch(e){status('adminStatus',e?.message||'Ошибка выдачи Golda','error');}
+        finally{button.disabled=false;}
+      });
+      $('adminKick').addEventListener('click',async()=>{
+        if(!confirm('Завершить сессию пользователя? Он сможет сразу войти снова.'))return;
+        try{const {error:e}=await sb.rpc('borby_admin_kick_user',{p_username:u.username});if(e)throw e;status('adminStatus','Запрос на выход отправлен.','success');}
+        catch(e){status('adminStatus',e?.message||'Не удалось завершить сессию','error');}
+      });
+    }
+  }
+  async function openSendGiftShop(peer){
+    if(!peer)return;
+    const {data,error}=await sb.from('borby_gifts').select('id,name,emoji,price').eq('active',true).order('price');
+    if(error){status('globalStatus','Не удалось загрузить подарки: '+error.message,'error');return;}
+    showModal(`<div><b>Подарок для @${esc(peer.username)}</b><div class="sub" style="margin:4px 0 12px">Оплата спишется с твоего баланса Golda.</div></div><div class="gift-grid">${(data||[]).map(g=>`<div class="gift-card"><div class="gift-emoji">${esc(g.emoji)}</div><b>${esc(g.name)}</b><div class="sub golda">G ${Number(g.price).toLocaleString('ru-RU')}</div><button data-send-gift="${g.id}">Подарить</button></div>`).join('')||'<div class="empty">Подарков пока нет.</div>'}</div><label class="fieldlabel" for="giftMessage" style="display:block;margin:12px 0 7px">Сообщение к подарку (необязательно)</label><input id="giftMessage" maxlength="300" placeholder="Напиши пару слов"><div id="sendGiftStatus" class="small muted" style="margin-top:10px"></div>`);
+    $('peerModalContent').querySelectorAll('[data-send-gift]').forEach(b=>b.addEventListener('click',async()=>{
+      b.disabled=true;
+      try{
+        const gift=(data||[]).find(g=>Number(g.id)===Number(b.dataset.sendGift));
+        const giftNote=$('giftMessage').value.trim();
+        const {data:newBalance,error:e}=await sb.rpc('borby_send_gift',{p_receiver_id:peer.id,p_gift_id:Number(b.dataset.sendGift),p_message:giftNote||null});if(e)throw e;
+        walletBalance=Number(newBalance);$('walletBalance').textContent='G '+walletBalance.toLocaleString('ru-RU');status('sendGiftStatus','Подарок отправлен!','success');await refreshWallet();
+        // Открываем личный чат и публикуем туда карточку подарка как системное сообщение.
+        await startChat(peer.id);
+        if(activeChat&&activePeer?.id===peer.id&&gift){
+          const giftBody='__BORBY_GIFT__'+JSON.stringify({name:gift.name,emoji:gift.emoji,price:gift.price,message:giftNote,sender:myProfile?.username||'пользователь'});
+          const {data:giftMessage,error:messageError}=await sb.from('messages').insert({chat_id:activeChat,sender_id:currentUser.id,body:giftBody}).select('id,chat_id,sender_id,body,created_at').single();
+          if(messageError)throw new Error('Подарок отправлен, но карточка в чате не появилась: '+messageError.message);
+          renderNewMessage(giftMessage);$('messages').scrollTop=$('messages').scrollHeight;closeModal();if(!loadingChats)loadChats();
+        }
+      }
+      catch(e){status('sendGiftStatus',e?.message||'Не удалось отправить подарок','error');b.disabled=false;}
+    }));
+  }
+  async function checkKickRequest(){
+    if(!sb||!currentUser)return;
+    try{const {data,error}=await sb.rpc('borby_check_kick');if(error)throw error;if(data){await sb.auth.signOut();currentUser=null;myProfile=null;closeAudioCall(false);if(callChannel&&sb){try{sb.removeChannel(callChannel);}catch{}callChannel=null;}for(const ch of callChannels.values()){try{sb.removeChannel(ch);}catch{}}callChannels.clear();closeRealtime();showAuth();setAuthMode('login');status('authStatus','Текущая сессия завершена администратором. Ты можешь войти снова.','error');}}
+    catch(e){/* transient network/RPC errors should not break messaging */}
+  }
+  // WebRTC audio calls: Supabase Realtime Broadcast carries call setup/signalling; audio is peer-to-peer.
+  let callChannel=null, callChannels=new Map(), activeCall=null;
+  const rtcConfig={iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'}]};
+  function callStatus(text){const el=$('callState');if(el)el.textContent=text;}
+  function showCallOverlay(name,mode='active'){
+    $('callOverlay').classList.remove('hidden');$('callPeerName').textContent=name||'Пользователь Borby';$('callAvatar').textContent=initials(name||'B');
+    $('incomingCallActions').classList.toggle('hidden',mode!=='incoming');$('activeCallActions').classList.toggle('hidden',mode==='incoming');
+  }
+  async function getCallChannel(userId){
+    const key=String(userId);if(callChannels.has(key))return callChannels.get(key);
+    const channel=sb.channel('borby-audio-call-'+key,{config:{broadcast:{ack:true,self:false}}});
+    const ready=new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(new Error('Канал звонков не подключился. Проверь Realtime в Supabase.')),10000);channel.subscribe(state=>{if(state==='SUBSCRIBED'){clearTimeout(timeout);resolve(channel);}else if(state==='CHANNEL_ERROR'||state==='TIMED_OUT'){clearTimeout(timeout);reject(new Error('Supabase Realtime недоступен для звонков.'));}});});
+    callChannels.set(key,channel);try{await ready;return channel;}catch(e){callChannels.delete(key);try{sb.removeChannel(channel);}catch{}throw e;}
+  }
+  async function sendCallSignal(userId,payload){const ch=await getCallChannel(userId);const result=await ch.send({type:'broadcast',event:'call-signal',payload:{...payload,from:currentUser.id,to:userId}});if(result==='error')throw new Error('Не удалось отправить сигнал звонка.');}
+  function subscribeCallSignals(){
+    if(!sb||!currentUser)return;
+    if(callChannel){try{sb.removeChannel(callChannel);}catch{}callChannel=null;}
+    callChannel=sb.channel('borby-audio-call-'+currentUser.id,{config:{broadcast:{ack:true,self:false}}})
+      .on('broadcast',{event:'call-signal'},({payload})=>{if(payload&&payload.to===currentUser?.id)handleCallSignal(payload).catch(e=>{console.error('Call signal error',e);callStatus(e.message||'Ошибка звонка');});})
+      .subscribe(state=>{if(state==='CHANNEL_ERROR'||state==='TIMED_OUT')status('globalStatus','Сигнализация звонков недоступна. Проверь Realtime в Supabase.','error');});
+  }
+  function setupPeerConnection(call){
+    const pc=new RTCPeerConnection(rtcConfig);call.pc=pc;
+    pc.onicecandidate=e=>{if(!e.candidate||activeCall!==call)return;if(!call.signalingReady&&call.role==='caller'){call.iceBuffer.push(e.candidate);return;}sendCallSignal(call.peerId,{type:'ice',callId:call.callId,candidate:e.candidate}).catch(err=>console.warn('ICE send failed',err));};
+    pc.ontrack=e=>{const audio=$('remoteCallAudio');audio.srcObject=e.streams[0];audio.play().catch(()=>callStatus('Нажми на страницу, чтобы разрешить воспроизведение звука.'));};
+    pc.onconnectionstatechange=()=>{if(activeCall!==call)return;if(pc.connectionState==='connected')callStatus('Соединение установлено');else if(pc.connectionState==='connecting')callStatus('Соединяем…');else if(pc.connectionState==='failed')callStatus('Не удалось соединиться. Возможно, нужна TURN-настройка.');else if(pc.connectionState==='disconnected')callStatus('Связь прервалась…');else if(pc.connectionState==='closed')callStatus('Звонок завершён');};
+    return pc;
+  }
+  async function getMicStream(){
+    if(!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) throw new Error('Микрофон недоступен в этом режиме. Открой Borby через HTTPS-сайт или localhost, а не как file:// HTML.');
+    callStatus('Ожидаем разрешение микрофона…');
+    let timer;
+    try {
+      return await Promise.race([
+        navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true},video:false}),
+        new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('Запрос микрофона завис. Проверь разрешение микрофона в настройках браузера и попробуй снова.')),20000);})
+      ]);
+    } catch(e) {
+      if(e?.name==='NotAllowedError'||e?.name==='PermissionDeniedError') throw new Error('Доступ к микрофону запрещён. Разреши микрофон для сайта Borby в настройках браузера.');
+      if(e?.name==='NotFoundError') throw new Error('Микрофон не найден на устройстве.');
+      if(e?.name==='NotReadableError') throw new Error('Микрофон занят другим приложением. Закрой его и попробуй снова.');
+      throw e;
+    } finally { clearTimeout(timer); }
+  }
+  async function startAudioCall(){
+    if(!sb||!currentUser){status('globalStatus','Сначала войди в Borby.','error');return;}
+    if(!activePeer?.id){status('messageStatus','Сначала открой чат с пользователем.','error');return;}
+    if(activeCall){showCallOverlay(activeCall.peerName,activeCall.incoming?'incoming':'active');return;}
+    const call={role:'caller',peerId:activePeer.id,peerName:activePeer.display_name||activePeer.username||'Пользователь Borby',callId:crypto.randomUUID?crypto.randomUUID():String(Date.now())+'-'+Math.random().toString(16).slice(2),pc:null,localStream:null,pendingCandidates:[],iceBuffer:[],signalingReady:false,incoming:false,muted:false};
+    activeCall=call;showCallOverlay(call.peerName,'active');callStatus('Запрашиваем доступ к микрофону…');
+    try{
+      call.localStream=await getMicStream();if(activeCall!==call)return;
+      const pc=setupPeerConnection(call);call.localStream.getTracks().forEach(track=>pc.addTrack(track,call.localStream));
+      const offer=await pc.createOffer();await pc.setLocalDescription(offer);
+      callStatus('Микрофон включён. Подключаем вызов…');await sendCallSignal(call.peerId,{type:'offer',callId:call.callId,offer:pc.localDescription,displayName:myProfile?.display_name||myProfile?.username||'Пользователь'});call.signalingReady=true;for(const candidate of call.iceBuffer.splice(0))await sendCallSignal(call.peerId,{type:'ice',callId:call.callId,candidate});callStatus('Вызов отправлен. Ожидаем ответ…');
+    }catch(e){console.error('Borby call start failed:',e);callStatus(e?.message||'Не удалось начать звонок.');}
+  }
+  async function handleCallSignal(msg){
+    if(!msg||msg.from===currentUser?.id)return;
+    if(msg.type==='offer'){
+      if(activeCall){await sendCallSignal(msg.from,{type:'busy',callId:msg.callId});return;}
+      const call={role:'callee',peerId:msg.from,peerName:msg.displayName||'Входящий звонок',callId:msg.callId,offer:msg.offer,pc:null,localStream:null,pendingCandidates:[],incoming:true,muted:false};
+      activeCall=call;showCallOverlay(call.peerName,'incoming');callStatus('Входящий аудиозвонок…');return;
+    }
+    const call=activeCall;if(!call||call.peerId!==msg.from||call.callId!==msg.callId)return;
+    if(msg.type==='answer'&&call.role==='caller'&&call.pc){await call.pc.setRemoteDescription(new RTCSessionDescription(msg.answer));for(const c of call.pendingCandidates.splice(0)){try{await call.pc.addIceCandidate(new RTCIceCandidate(c));}catch{}}callStatus('Ответ получен. Соединяем…');}
+    else if(msg.type==='ice'&&msg.candidate){if(!call.pc){call.pendingCandidates.push(msg.candidate);}else if(call.pc.remoteDescription){try{await call.pc.addIceCandidate(new RTCIceCandidate(msg.candidate));}catch(e){console.warn('ICE candidate skipped',e);}}else call.pendingCandidates.push(msg.candidate);}
+    else if(msg.type==='reject'){callStatus('Звонок отклонён');setTimeout(()=>{if(activeCall===call)closeAudioCall(false);},1200);}
+    else if(msg.type==='hangup'){callStatus('Собеседник завершил звонок');setTimeout(()=>{if(activeCall===call)closeAudioCall(false);},900);}
+    else if(msg.type==='busy'){callStatus('Пользователь уже разговаривает');setTimeout(()=>{if(activeCall===call)closeAudioCall(false);},1600);}
+  }
+  async function acceptAudioCall(){
+    const call=activeCall;if(!call||!call.incoming)return;
+    $('incomingCallActions').classList.add('hidden');$('activeCallActions').classList.remove('hidden');callStatus('Запрашиваем доступ к микрофону…');
+    try{
+      call.localStream=await getMicStream();if(activeCall!==call)return;const pc=setupPeerConnection(call);call.localStream.getTracks().forEach(track=>pc.addTrack(track,call.localStream));
+      await pc.setRemoteDescription(new RTCSessionDescription(call.offer));for(const c of call.pendingCandidates.splice(0)){try{await pc.addIceCandidate(new RTCIceCandidate(c));}catch{}}
+      const answer=await pc.createAnswer();await pc.setLocalDescription(answer);call.incoming=false;
+      await sendCallSignal(call.peerId,{type:'answer',callId:call.callId,answer:pc.localDescription});callStatus('Подключаемся…');
+    }catch(e){console.error('Borby call accept failed:',e);callStatus(e?.message||'Не удалось принять звонок.');}
+  }
+  async function closeAudioCall(notify=true){
+    const call=activeCall;if(!call)return;activeCall=null;
+    if(notify&&currentUser&&call.peerId)sendCallSignal(call.peerId,{type:'hangup',callId:call.callId}).catch(()=>{});
+    try{call.pc?.close();}catch{}try{call.localStream?.getTracks().forEach(t=>t.stop());}catch{}
+    const audio=$('remoteCallAudio');if(audio){audio.pause();audio.srcObject=null;}
+    $('callOverlay').classList.add('hidden');$('incomingCallActions').classList.add('hidden');$('activeCallActions').classList.add('hidden');
+  }
+  $('audioCallBtn').addEventListener('click',startAudioCall);
+  $('acceptCallBtn').addEventListener('click',acceptAudioCall);
+  $('declineCallBtn').addEventListener('click',async()=>{const c=activeCall;if(c)await sendCallSignal(c.peerId,{type:'reject',callId:c.callId}).catch(()=>{});closeAudioCall(false);});
+  $('endCallBtn').addEventListener('click',()=>closeAudioCall(true));
+  $('muteCallBtn').addEventListener('click',()=>{const c=activeCall;if(!c?.localStream)return;c.muted=!c.muted;c.localStream.getAudioTracks().forEach(t=>t.enabled=!c.muted);$('muteCallBtn').textContent=c.muted?'🎙 Включить микрофон':'🎙 Выключить микрофон';});
+
+  $('topAction').addEventListener('click',()=>{if(sb&&currentUser){loadChats();if(activeChat)loadMessages({quiet:false});}else if(!sb)connect();});
+  $('toggleAuth').addEventListener('click',()=>setAuthMode(authMode==='login'?'signup':'login'));
+  $('authSubmit').addEventListener('click',authSubmit);
+  $('saveProfileBtn').addEventListener('click',saveProfile);
+  $('openGiftShop').addEventListener('click',openGiftShop);
+  $('adminSelfManage').addEventListener('click',()=>openPeerProfile(myProfile));
+  $('closePeerModal').addEventListener('click',closeModal);
+  $('peerModal').addEventListener('click',e=>{if(e.target===$('peerModal'))closeModal();});
+  $('userSearchBtn').addEventListener('click',searchUsers);
+  $('userSearch').addEventListener('keydown',e=>{if(e.key==='Enter')searchUsers();});
+  $('newChatBtn').addEventListener('click',()=>{page('contacts');$('userSearch').focus();});
+  $('newChatBtnAlt')?.addEventListener('click',()=>{page('contacts');$('userSearch').focus();});
+  document.querySelectorAll('.chat-filter').forEach((b,i)=>b.addEventListener('click',()=>{activeChatFilter=['all','personal','unread'][i]||'all';document.querySelectorAll('.chat-filter').forEach(x=>x.classList.toggle('active',x===b));renderChats();}));
+  $('chatSearch').addEventListener('input',renderChats);
+  $('sendBtn').addEventListener('click',sendMessage);
+  $('attachMediaBtn').addEventListener('click',()=>{if(!activeChat){status('messageStatus','Сначала открой чат.');return;} $('mediaFileInput').click();});
+  $('mediaFileInput').addEventListener('change',()=>sendSelectedMedia('mediaFileInput'));
+  $('galleryMediaBtn').addEventListener('click',()=>{if(!activeChat){status('messageStatus','Сначала открой чат.');return;} $('galleryFileInput').click();});
+  $('galleryFileInput').addEventListener('change',()=>sendSelectedMedia('galleryFileInput'));
+  $('messageInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+  $('backChats').addEventListener('click',()=>{if(messageChannel&&sb)sb.removeChannel(messageChannel);messageChannel=null;if(messagePollTimer)clearInterval(messagePollTimer);messagePollTimer=null;activeChat=null;activePeer=null;page('chats');loadChats();});
+  $('signOutBtn').addEventListener('click',async()=>{if(!sb)return;status('profileStatus','Выходим…');const {error}=await sb.auth.signOut();if(error){status('profileStatus','Не удалось выйти: '+error.message,'error');return;}currentUser=null;myProfile=null;closeAudioCall(false);if(callChannel&&sb){try{sb.removeChannel(callChannel);}catch{}callChannel=null;}for(const ch of callChannels.values()){try{sb.removeChannel(ch);}catch{}}callChannels.clear();closeRealtime();showAuth();setAuthMode('login');});
+  document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
+  document.querySelectorAll('#settingsPage .settings-row').forEach((row,i)=>{
+    row.setAttribute('role','button');row.tabIndex=0;
+    const titles=['Аккаунт','Настройки чатов','Конфиденциальность','Уведомления','Данные и память','Папки с чатами','Устройства','Энергосбережение','Язык'];
+    const openSettings=()=>{
+      if(i===0){page('profile');return;}
+      if(i===1){
+        showModal(`<h3 class="title">Настройки чатов</h3><p class="sub">Оформление приложения и поведение сообщений.</p><div class="stack"><button id="themeToggle" type="button" class="ghost">${document.body.classList.contains('light-theme')?'Включить тёмную тему':'Включить светлую тему'}</button><button id="scrollBottom" type="button" class="ghost">Прокрутить текущий чат вниз</button><div id="settingsActionStatus" class="small muted"></div></div>`);
+        $('themeToggle').onclick=()=>{document.body.classList.toggle('light-theme');try{localStorage.setItem('borby-theme',document.body.classList.contains('light-theme')?'light':'dark');}catch{}$('themeToggle').textContent=document.body.classList.contains('light-theme')?'Включить тёмную тему':'Включить светлую тему';$('settingsActionStatus').textContent='Тема применена.';};
+        $('scrollBottom').onclick=()=>{if($('messages'))$('messages').scrollTop=$('messages').scrollHeight;$('settingsActionStatus').textContent='Прокрутка выполнена.';};return;
+      }
+      if(i===2){showModal(`<h3 class="title">Конфиденциальность</h3><p class="sub">Управление видимостью и безопасностью аккаунта.</p><div class="notice">Не сообщай пароль другим людям. Доступ к профилю и сообщениям зависит от настроек базы данных Borby.</div><div class="stack" style="margin-top:12px"><button id="privacyProfile" class="ghost">Открыть мой профиль</button><button id="privacySignout" class="dangerbtn">Выйти из аккаунта</button></div>`);$('privacyProfile').onclick=()=>{closeModal();page('profile');};$('privacySignout').onclick=()=>{closeModal();$('signOutBtn').click();};return;}
+      if(i===3){let enabled=true;try{enabled=localStorage.getItem('borby-notifications')!=='off';}catch{}showModal(`<h3 class="title">Уведомления</h3><p class="sub">Настройка уведомлений внутри этого приложения.</p><button id="notificationToggle" class="ghost" type="button">${enabled?'Отключить локальные уведомления':'Включить локальные уведомления'}</button><p id="notificationInfo" class="small muted">${enabled?'Уведомления приложения не отключены в настройках Borby.':'Локальная настройка отключена.'}</p>`);$('notificationToggle').onclick=()=>{enabled=!enabled;try{localStorage.setItem('borby-notifications',enabled?'on':'off');}catch{}$('notificationToggle').textContent=enabled?'Отключить локальные уведомления':'Включить локальные уведомления';$('notificationInfo').textContent=enabled?'Настройка включена. Разрешение браузера на уведомления настраивается отдельно.':'Настройка выключена.';};return;}
+      if(i===4){showModal(`<h3 class="title">Данные и память</h3><p class="sub">Перезагрузка списка чатов и очистка локального поиска.</p><div class="stack"><button id="refreshChatsSetting" type="button">Обновить список чатов</button><button id="clearSearchSetting" type="button" class="ghost">Очистить поиск чатов</button><div id="dataSettingsStatus" class="small muted"></div></div>`);$('refreshChatsSetting').onclick=async()=>{await loadChats();$('dataSettingsStatus').textContent='Список чатов обновлён.';};$('clearSearchSetting').onclick=()=>{$('chatSearch').value='';renderChats();$('dataSettingsStatus').textContent='Поиск очищен.';};return;}
+      if(i===5){showModal(`<h3 class="title">Папки с чатами</h3><p class="sub">Быстрые фильтры помогают организовать переписки.</p><div class="stack"><button id="folderAll">Все чаты</button><button id="folderPersonal" class="ghost">Личные чаты</button><button id="folderUnread" class="ghost">Непрочитанные</button></div>`);[['folderAll',0],['folderPersonal',1],['folderUnread',2]].forEach(([id,n])=>$(id).onclick=()=>{closeModal();document.querySelectorAll('.chat-filter')[n].click();page('chats');});return;}
+      if(i===6){showModal(`<h3 class="title">Устройства</h3><p class="sub">Текущий сеанс Borby работает в этом браузере.</p><div class="notice">Для управления другими устройствами нужна серверная поддержка этой функции.</div><button id="deviceRefresh" style="margin-top:12px">Проверить соединение</button><div id="deviceStatus" class="small muted" style="margin-top:8px"></div>`);$('deviceRefresh').onclick=()=>{$('deviceStatus').textContent=navigator.onLine?'Устройство в сети.':'Нет подключения к интернету.';};return;}
+      if(i===7){let reduced=false;try{reduced=localStorage.getItem('borby-reduced-motion')==='on';}catch{}showModal(`<h3 class="title">Энергосбережение</h3><p class="sub">Уменьшает анимации интерфейса.</p><button id="motionToggle" class="ghost">${reduced?'Отключить уменьшение анимаций':'Уменьшить анимации'}</button><div id="motionStatus" class="small muted" style="margin-top:8px"></div>`);$('motionToggle').onclick=()=>{reduced=!reduced;document.body.classList.toggle('reduce-motion',reduced);try{localStorage.setItem('borby-reduced-motion',reduced?'on':'off');}catch{}$('motionToggle').textContent=reduced?'Отключить уменьшение анимаций':'Уменьшить анимации';$('motionStatus').textContent='Настройка применена.';};return;}
+      if(i===8){showModal(`<h3 class="title">Язык</h3><p class="sub">Сейчас интерфейс Borby отображается на русском языке.</p><button id="languageRussian">Русский ✓</button><p class="small muted">Другие языки пока не подключены.</p>`);$('languageRussian').onclick=()=>{closeModal();status('globalStatus','Язык интерфейса: русский.');};return;}
+      status('globalStatus','Раздел «'+titles[i]+'» открыт.');
+    };
+    row.addEventListener('click',openSettings);row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openSettings();}});
+  });
+  document.querySelectorAll('.story').forEach((button,i)=>button.addEventListener('click',()=>{
+    if(i===0){page('profile');$('editBio').focus();return;}
+    if(i===1){page('contacts');$('userSearch').focus();return;}
+    if(i===2){page('contacts');$('userSearch').focus();status('globalStatus','Найди пользователя Borby, чтобы открыть его профиль.');return;}
+    if(i===3){page('chats');$('chatSearch').value='';renderChats();status('globalStatus','Избранное: используй поиск, чтобы быстро найти нужный чат.');return;}
+    if(i===4){page('contacts');$('userSearch').focus();status('globalStatus','Сообщество Borby: найди пользователей через поиск контактов.');return;}
+  }));
+  try{if(localStorage.getItem('borby-theme')==='light')document.body.classList.add('light-theme');if(localStorage.getItem('borby-reduced-motion')==='on')document.body.classList.add('reduce-motion');}catch{}
+  setAuthMode('login');
+  // Показываем экран входа сразу: если сеть или Supabase долго отвечают, приложение не останется пустым/серым.
+  showAuth();
+  status('authStatus','Готово к входу в Borby.');
+  connect();
+})();
+</script>
+</body>
+</html>
